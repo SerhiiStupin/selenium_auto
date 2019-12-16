@@ -1,14 +1,18 @@
 # Compiled class file
 *.class
+*.iml
 
 # Log file
 *.log
+*.iml
 
 # BlueJ files
 *.ctxt
+*.iml
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+.iml
 
 # Package Files #
 *.jar
@@ -27,3 +31,4 @@ target/
 build/
 .allure/
 allure-results/
+*.iml
