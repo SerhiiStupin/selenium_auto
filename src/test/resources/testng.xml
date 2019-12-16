@@ -2,9 +2,9 @@
 
 <suite name="Simple test suite" verbose="1" >
 
-    <test name="User test" >
+    <test name="test" >
         <classes>
-            <class name="com" />
+            <class name="com.auto.UserTest" />
         </classes>
     </test>
 
