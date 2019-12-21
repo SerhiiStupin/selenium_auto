@@ -2,6 +2,7 @@ package com.auto;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -93,38 +94,51 @@ public class PetClinicOwner {
     @Test
     public void firstNameValidationTests(){
         String firstName = "First name must be at least 2 characters long";
+        String required = "First name is required";
         driver.get("http://localhost:8000/petclinic/owners");
         driver.findElement(By.cssSelector("button.btn.btn-default")).click();
         driver.findElement(By.id("firstName")).sendKeys("1");
         String helpBlock = driver.findElement(By.className("help-block")).getText();
         assertEquals(firstName, helpBlock);
+        driver.findElement(By.id("firstName")).sendKeys(Keys.BACK_SPACE);
+        String helpBlock2 = driver.findElement(By.className("help-block")).getText();
+        assertEquals(required, helpBlock2);
     }
     @Test
     public void lastNameValidationTests(){
         String lastName = "Last name must be at least 2 characters long";
+        String required = "Last name is required";
         driver.get("http://localhost:8000/petclinic/owners");
         driver.findElement(By.cssSelector("button.btn.btn-default")).click();
-        driver.findElement(By.id("lastName")).sendKeys("1");
+        driver.findElement(By.id("lastName")).sendKeys("q");
         String helpBlock = driver.findElement(By.className("help-block")).getText();
         assertEquals(lastName, helpBlock);
+        driver.findElement(By.id("lastName")).sendKeys(Keys.BACK_SPACE);
+        String helpBlock2 = driver.findElement(By.className("help-block")).getText();
+        assertEquals(required, helpBlock2);
     }
-//    @Test
-//    public void addressValidationTest() {
-//        String address = "!@#$%^&*()_";
-//        driver.get("http://localhost:8000/petclinic/owners");
-//        driver.findElement(By.cssSelector("button.btn.btn-default")).click();
-//        driver.findElement(By.id("address")).sendKeys(address);
-//        String enteredData = driver.findElement(By.cssSelector("ng-reflect-model")).getText();
-//        assertEquals(address, enteredData);
-//    }
+    @Test
+    public void addressValidationTest() {
+        String address = "Address is required";
+        driver.get("http://localhost:8000/petclinic/owners");
+        driver.findElement(By.cssSelector("button.btn.btn-default")).click();
+        driver.findElement(By.id("address")).sendKeys("-");
+        driver.findElement(By.id("address")).sendKeys(Keys.BACK_SPACE);
+        String message = driver.findElement(By.className("help-block")).getText();
+        assertEquals(address, message);
+    }
     @Test
     public void telephoneTest(){
         String phoneError = "Phone number only accept digits";
+        String required = "Phone number is required";
         driver.get("http://localhost:8000/petclinic/owners");
         driver.findElement(By.cssSelector("button.btn.btn-default")).click();
-        driver.findElement(By.id("telephone")).sendKeys("qwe");
+        driver.findElement(By.id("telephone")).sendKeys("q");
         String errorMessage = driver.findElement(By.className("help-block")).getText();
         assertEquals(phoneError, errorMessage);
+        driver.findElement(By.id("telephone")).sendKeys(Keys.BACK_SPACE);
+        String helpBlock2 = driver.findElement(By.className("help-block")).getText();
+        assertEquals(required, helpBlock2);
     }
 
     public void assertUrl(String url){
