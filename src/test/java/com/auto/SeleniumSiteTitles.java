@@ -163,7 +163,6 @@ public class SeleniumSiteTitles {
         String homeUrl = "https://selenium.dev/";
         driver.navigate().to("https://selenium.dev/");
         asserMain(homeUrl);
-
     }
 
     public void asserMain(String homeUrl){
@@ -177,6 +176,4 @@ public class SeleniumSiteTitles {
     private void assertPageTitle(String pageTitle){
         String currentTitle = driver.getTitle();
         assertEquals(currentTitle, pageTitle);}
-
-
 }
