@@ -10,8 +10,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -38,52 +37,33 @@ public class PetClinicOwner {
     }
 
     @Test
-    public void addNewOwnerTest(){
-        String firstName = "James";
-        String lastName = "Bond";
-        String fullName = firstName + " " + lastName;
-
-        driver.get("http://localhost:8000/petclinic/welcome");
-        WebElement menuOwnerDropdown = driver.findElement(By.className("dropdown-toggle"));
-        menuOwnerDropdown.click();
-        WebElement addNew = driver.findElement(By.cssSelector("a[href='/petclinic/owners/add']"));
-        addNew.click();
+    public void addNewOwnerTest() {
+        driver.get(owners);
+        List<WebElement> before = driver.findElements(By.xpath("//*[@class='ownerFullName']"));
+        driver.get(home);
+        goToAddOwnerPage();
         assertUrl(driver.getCurrentUrl());
         driver.findElement(By.id("firstName")).sendKeys(firstName);
         driver.findElement(By.id("lastName")).sendKeys(lastName);
         driver.findElement(By.id("address")).sendKeys("Some Street");
         driver.findElement(By.id("city")).sendKeys("London");
         driver.findElement(By.id("telephone")).sendKeys("2151212");
-        driver.findElement(By.cssSelector("button.btn.btn-default")).click();
-
-        List<WebElement> quantity = driver.findElements(By.className("ownerFullName"));
-        assertEquals(quantity.size(), 12);
-        String owner = String.valueOf(driver.findElement(By.partialLinkText("James Bond")).getText());
-        assertTrue(owner.contains(fullName));
-
-//        List<String> owner = new ArrayList<>();
-//        for (WebElement owners : quantity) {
-//            WebElement ownerName = owners.findElement(By.cssSelector("td.ownerFullName"));
-//            owner.addAll(Collections.singleton(ownerName.getText()));
-//            System.out.println(owner);
-//        }
-//        System.out.println(owner);
+        addOwnerButtonClick();
+        List<WebElement> after = driver.findElements(By.xpath("//*[@class='ownerFullName']"));
+        assertEquals(before.size()+1, after.size());
     }
+
     @Test
-    public void backButtonTest(){
-        String owners = "http://localhost:8000/petclinic/owners";
-        driver.get("http://localhost:8000/petclinic/welcome");
-        WebElement menuOwnerDropdown = driver.findElement(By.className("dropdown-toggle"));
-        menuOwnerDropdown.click();
-        WebElement addNew = driver.findElement(By.cssSelector("a[href='/petclinic/owners/add']"));
-        addNew.click();
+    public void backButtonTest() {
+        driver.get(home);
+        goToAddOwnerPage();
         assertUrl(driver.getCurrentUrl());
-        driver.findElement(By.cssSelector("button.btn.btn-default")).click();
+        backButtonClick();
         assertEquals(owners, driver.getCurrentUrl());
     }
+
     @Test
-    public void backButtonFromOwnerTest(){
-        String owners = "http://localhost:8000/petclinic/owners";
+    public void backButtonFromOwnerTest() {
         driver.get(owners);
         driver.findElement(By.partialLinkText("James Bond")).click();
         assertUrl(driver.getCurrentUrl());
@@ -92,57 +72,90 @@ public class PetClinicOwner {
     }
 
     @Test
-    public void firstNameValidationTests(){
+    public void firstNameValidationTests() {
         String firstName = "First name must be at least 2 characters long";
         String required = "First name is required";
-        driver.get("http://localhost:8000/petclinic/owners");
-        driver.findElement(By.cssSelector("button.btn.btn-default")).click();
+        driver.get(owners);
+        addOwnerButtonClick();
         driver.findElement(By.id("firstName")).sendKeys("1");
-        String helpBlock = driver.findElement(By.className("help-block")).getText();
-        assertEquals(firstName, helpBlock);
+        helpBlockGetText();
+        validationesAssert(firstName);
+
         driver.findElement(By.id("firstName")).sendKeys(Keys.BACK_SPACE);
-        String helpBlock2 = driver.findElement(By.className("help-block")).getText();
-        assertEquals(required, helpBlock2);
+        helpBlockGetText();
+        validationesAssert(required);
     }
+
     @Test
-    public void lastNameValidationTests(){
+    public void lastNameValidationTests() {
         String lastName = "Last name must be at least 2 characters long";
         String required = "Last name is required";
-        driver.get("http://localhost:8000/petclinic/owners");
-        driver.findElement(By.cssSelector("button.btn.btn-default")).click();
+        driver.get(owners);
+        addOwnerButtonClick();
         driver.findElement(By.id("lastName")).sendKeys("q");
-        String helpBlock = driver.findElement(By.className("help-block")).getText();
-        assertEquals(lastName, helpBlock);
+        helpBlockGetText();
+        validationesAssert(lastName);
+
         driver.findElement(By.id("lastName")).sendKeys(Keys.BACK_SPACE);
-        String helpBlock2 = driver.findElement(By.className("help-block")).getText();
-        assertEquals(required, helpBlock2);
+        helpBlockGetText();
+        validationesAssert(required);
     }
+
     @Test
     public void addressValidationTest() {
         String address = "Address is required";
-        driver.get("http://localhost:8000/petclinic/owners");
-        driver.findElement(By.cssSelector("button.btn.btn-default")).click();
+        driver.get(owners);
+        addOwnerButtonClick();
         driver.findElement(By.id("address")).sendKeys("-");
         driver.findElement(By.id("address")).sendKeys(Keys.BACK_SPACE);
-        String message = driver.findElement(By.className("help-block")).getText();
-        assertEquals(address, message);
-    }
-    @Test
-    public void telephoneTest(){
-        String phoneError = "Phone number only accept digits";
-        String required = "Phone number is required";
-        driver.get("http://localhost:8000/petclinic/owners");
-        driver.findElement(By.cssSelector("button.btn.btn-default")).click();
-        driver.findElement(By.id("telephone")).sendKeys("q");
-        String errorMessage = driver.findElement(By.className("help-block")).getText();
-        assertEquals(phoneError, errorMessage);
-        driver.findElement(By.id("telephone")).sendKeys(Keys.BACK_SPACE);
-        String helpBlock2 = driver.findElement(By.className("help-block")).getText();
-        assertEquals(required, helpBlock2);
+        helpBlockGetText();
+        validationesAssert(address);
     }
 
-    public void assertUrl(String url){
+    @Test
+    public void telephoneTest() {
+        String phoneError = "Phone number only accept digits";
+        String required = "Phone number is required";
+        driver.get(owners);
+        addOwnerButtonClick();
+        driver.findElement(By.id("telephone")).sendKeys("q");
+        helpBlockGetText();
+        validationesAssert(phoneError);
+
+        driver.findElement(By.id("telephone")).sendKeys(Keys.BACK_SPACE);
+        helpBlockGetText();
+        validationesAssert(required);
+    }
+
+    public void assertUrl(String url) {
         String currentUrl = driver.getCurrentUrl();
         assertEquals(currentUrl, url);
     }
+
+    public void goToAddOwnerPage() {
+        WebElement menuOwnerDropdown = driver.findElement(By.className("dropdown-toggle"));
+        menuOwnerDropdown.click();
+        WebElement addNew = driver.findElement(By.cssSelector("a[href='/petclinic/owners/add']"));
+        addNew.click();
+    }
+
+    public void addOwnerButtonClick(){
+        driver.findElement(By.xpath("//*[text()='Add Owner']")).click();
+    }
+    public void backButtonClick(){
+        driver.findElement(By.xpath("//*[text()='Back']")).click();
+    }
+    public void helpBlockGetText(){
+        driver.findElement(By.xpath("//span[@class='help-block']")).getText();
+    }
+    public void validationesAssert(String helpBlock){
+        String blockText = driver.findElement(By.xpath("//span[@class='help-block']")).getText();
+        assertEquals(blockText, helpBlock);
+    }
+
+    String home = "http://localhost:8000/petclinic/welcome";
+    String owners = "http://localhost:8000/petclinic/owners";
+    String firstName = "James";
+    String lastName = "Bond";
+
 }
