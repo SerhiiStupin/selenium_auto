@@ -39,7 +39,7 @@ public class PetClinicOwner {
     @Test
     public void addNewOwnerTest() {
         driver.get(owners);
-        List<WebElement> before = driver.findElements(By.xpath("//*[@class='ownerFullName']"));
+        List<WebElement> before = driver.findElements(By.cssSelector("td.ownerFullName"));
         driver.get(home);
         goToAddOwnerPage();
         assertUrl(driver.getCurrentUrl());
@@ -49,7 +49,7 @@ public class PetClinicOwner {
         driver.findElement(By.id("city")).sendKeys("London");
         driver.findElement(By.id("telephone")).sendKeys("2151212");
         addOwnerButtonClick();
-        List<WebElement> after = driver.findElements(By.xpath("//*[@class='ownerFullName']"));
+        List<WebElement> after = driver.findElements(By.cssSelector("td.ownerFullName"));
         assertEquals(before.size()+1, after.size());
     }
 
@@ -79,11 +79,11 @@ public class PetClinicOwner {
         addOwnerButtonClick();
         driver.findElement(By.id("firstName")).sendKeys("1");
         helpBlockGetText();
-        validationesAssert(firstName);
+        validationsAssert(firstName);
 
         driver.findElement(By.id("firstName")).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationesAssert(required);
+        validationsAssert(required);
     }
 
     @Test
@@ -94,11 +94,11 @@ public class PetClinicOwner {
         addOwnerButtonClick();
         driver.findElement(By.id("lastName")).sendKeys("q");
         helpBlockGetText();
-        validationesAssert(lastName);
+        validationsAssert(lastName);
 
         driver.findElement(By.id("lastName")).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationesAssert(required);
+        validationsAssert(required);
     }
 
     @Test
@@ -109,7 +109,7 @@ public class PetClinicOwner {
         driver.findElement(By.id("address")).sendKeys("-");
         driver.findElement(By.id("address")).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationesAssert(address);
+        validationsAssert(address);
     }
 
     @Test
@@ -120,11 +120,11 @@ public class PetClinicOwner {
         addOwnerButtonClick();
         driver.findElement(By.id("telephone")).sendKeys("q");
         helpBlockGetText();
-        validationesAssert(phoneError);
+        validationsAssert(phoneError);
 
         driver.findElement(By.id("telephone")).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationesAssert(required);
+        validationsAssert(required);
     }
 
     public void assertUrl(String url) {
@@ -140,15 +140,15 @@ public class PetClinicOwner {
     }
 
     public void addOwnerButtonClick(){
-        driver.findElement(By.xpath("//*[text()='Add Owner']")).click();
+        driver.findElement(By.cssSelector("button.btn.btn-default[type='submit']")).click();
     }
     public void backButtonClick(){
-        driver.findElement(By.xpath("//*[text()='Back']")).click();
+        driver.findElement(By.cssSelector("button.btn.btn-default[type='button']")).click();
     }
     public void helpBlockGetText(){
         driver.findElement(By.xpath("//span[@class='help-block']")).getText();
     }
-    public void validationesAssert(String helpBlock){
+    public void validationsAssert(String helpBlock){
         String blockText = driver.findElement(By.xpath("//span[@class='help-block']")).getText();
         assertEquals(blockText, helpBlock);
     }

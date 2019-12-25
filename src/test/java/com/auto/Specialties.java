@@ -9,7 +9,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -33,6 +32,8 @@ public class Specialties {
     public void tearDown() {
         driver.quit();
     }
+
+
     @Test
     public void pageCheck(){
         driver.get(home);
@@ -134,5 +135,4 @@ public class Specialties {
         String currentUrl = driver.getCurrentUrl();
         assertEquals(currentUrl, url);
     }
-
 }
