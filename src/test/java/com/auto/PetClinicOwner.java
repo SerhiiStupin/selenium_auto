@@ -79,11 +79,11 @@ public class PetClinicOwner {
         addOwnerButtonClick();
         driver.findElement(By.id("firstName")).sendKeys("1");
         helpBlockGetText();
-        validationsAssert(firstName);
+        validationesAssert(firstName);
 
         driver.findElement(By.id("firstName")).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationsAssert(required);
+        validationesAssert(required);
     }
 
     @Test
@@ -94,11 +94,11 @@ public class PetClinicOwner {
         addOwnerButtonClick();
         driver.findElement(By.id("lastName")).sendKeys("q");
         helpBlockGetText();
-        validationsAssert(lastName);
+        validationesAssert(lastName);
 
         driver.findElement(By.id("lastName")).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationsAssert(required);
+        validationesAssert(required);
     }
 
     @Test
@@ -109,7 +109,7 @@ public class PetClinicOwner {
         driver.findElement(By.id("address")).sendKeys("-");
         driver.findElement(By.id("address")).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationsAssert(address);
+        validationesAssert(address);
     }
 
     @Test
@@ -120,11 +120,11 @@ public class PetClinicOwner {
         addOwnerButtonClick();
         driver.findElement(By.id("telephone")).sendKeys("q");
         helpBlockGetText();
-        validationsAssert(phoneError);
+        validationesAssert(phoneError);
 
         driver.findElement(By.id("telephone")).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationsAssert(required);
+        validationesAssert(required);
     }
 
     public void assertUrl(String url) {
@@ -140,15 +140,15 @@ public class PetClinicOwner {
     }
 
     public void addOwnerButtonClick(){
-        driver.findElement(By.cssSelector("button.btn.btn-default[type='submit']")).click();
+        driver.findElement(By.xpath("//*[text()='Add Owner']")).click();
     }
     public void backButtonClick(){
-        driver.findElement(By.cssSelector("button.btn.btn-default[type='button']")).click();
+        driver.findElement(By.xpath("//*[text()='Back']")).click();
     }
     public void helpBlockGetText(){
         driver.findElement(By.xpath("//span[@class='help-block']")).getText();
     }
-    public void validationsAssert(String helpBlock){
+    public void validationesAssert(String helpBlock){
         String blockText = driver.findElement(By.xpath("//span[@class='help-block']")).getText();
         assertEquals(blockText, helpBlock);
     }

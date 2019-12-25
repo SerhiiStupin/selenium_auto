@@ -110,8 +110,6 @@ public class PetType {
         petTypeAddButton();
         nameInput("Zombie");
         saveVetButtonClick();
-        List<WebElement> after = driver.findElements(By.xpath("//tbody/tr"));
-        assertEquals(before.size()+1, after.size());
         driver.findElement(By.xpath("//tbody/tr[last()]/td/button[2]")).click();
         List<WebElement> afterDelete = driver.findElements(By.xpath("//tbody/tr"));
         assertEquals(before.size(), afterDelete.size());
