@@ -66,10 +66,10 @@ public class Specialties {
     }
     @Test
     public void specCheck(){
+        String spec = "Nurse";
         driver.get(home);
         navigateToSpecPage();
         specAddButton();
-        String spec = "Nurse";
         driver.findElement(By.xpath("//*[@id='name']")).sendKeys(spec);
         saveVetButtonClick();
         String specCheck = driver.findElement(By.xpath("//tbody/tr[last()]/td/input")).getAttribute("ng-reflect-model");
@@ -77,9 +77,9 @@ public class Specialties {
     }
     @Test
     public void editPetTypeTest(){
+        String newType = "Surgeon";
         driver.get(home);
         navigateToSpecPage();
-        String newType = "Surgeon";
         driver.findElement(By.xpath("//tr[last()]/td[2]/button[1]")).click();
         driver.findElement(By.xpath("//*[@id='name']")).clear();
         driver.findElement(By.xpath("//*[@id='name']")).sendKeys(newType);
@@ -110,8 +110,6 @@ public class Specialties {
         specAddButton();
         nameInput("Godzilllaaaaaa");
         saveVetButtonClick();
-//        List<WebElement> after = driver.findElements(By.xpath("//tbody/tr"));
-//        assertEquals(before.size()+1, after.size());
         driver.findElement(By.xpath("//tbody/tr[last()]/td/button[2]")).click();
         List<WebElement> afterDelete = driver.findElements(By.xpath("//tbody/tr"));
         assertEquals(before.size(), afterDelete.size());

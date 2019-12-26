@@ -36,9 +36,9 @@ public class PetType {
 
     @Test
     public void pageCheck(){
+        String pageHead = "Pet Types";
         driver.get(home);
         navigateToPetTypesPage();
-        String pageHead = "Pet Types";
         String currentPage = driver.findElement(By.xpath("//h2")).getText();
         assertEquals(pageHead, currentPage);
     }
@@ -66,10 +66,10 @@ public class PetType {
     }
     @Test
     public void nameCheck(){
+        String petType = "Monkey";
         driver.get(home);
         navigateToPetTypesPage();
         petTypeAddButton();
-        String petType = "Monkey";
         driver.findElement(By.xpath("//*[@id='name']")).sendKeys(petType);
         saveVetButtonClick();
         String nameCheck = driver.findElement(By.xpath("//tbody/tr[last()]/td/input")).getAttribute("ng-reflect-model");
@@ -77,9 +77,9 @@ public class PetType {
     }
     @Test
     public void editPetTypeTest(){
+        String newType = "Mozilla";
         driver.get(home);
         navigateToPetTypesPage();
-        String newType = "Mozilla";
         driver.findElement(By.xpath("//tr[5]/td[2]/button[1]")).click();
         driver.findElement(By.xpath("//*[@id='name']")).clear();
         driver.findElement(By.xpath("//*[@id='name']")).sendKeys(newType);
@@ -90,10 +90,10 @@ public class PetType {
     }
     @Test
     public void editPetTypeCancelTest(){
+        String newType = "Sobaka";
         driver.get(home);
         navigateToPetTypesPage();
         String oldType = driver.findElement(By.xpath("//tr[1]/td/input")).getAttribute("ng-reflect-model");
-        String newType = "Sobaka";
         driver.findElement(By.xpath("//tr[1]/td[2]/button[1]")).click();
         driver.findElement(By.xpath("//*[@id='name']")).clear();
         driver.findElement(By.xpath("//*[@id='name']")).sendKeys(newType);
