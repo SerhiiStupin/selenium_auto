@@ -70,7 +70,7 @@ public class Veterinarians {
         assertEquals(before.size(), after.size());
     }
     @Test
-    public void FirstNameValidationTests() {
+    public void firstNameValidationTests() {
         String longValidation = "First name must be at least 2 characters long";
         String requiredFirst = "First name is required";
         String firstName = "firstName";
@@ -85,7 +85,7 @@ public class Veterinarians {
         validationesAssert(requiredFirst);
     }
     @Test
-    public void LastNameValidationTests(){
+    public void lastNameValidationTests(){
         String longValidation2 = "Last name must be at least 2 characters long";
         String requiredLast = "Last name is required";
         String lastName = "lastName";
@@ -132,6 +132,12 @@ public class Veterinarians {
     String home = "http://localhost:8000/petclinic/welcome";
     String vets = "http://localhost:8000/petclinic/vets";
 
+    public void beforeList(){
+        driver.findElements(By.xpath("//*[@id='vets']/tbody/tr"));
+    }
+    public void afterList(){
+        driver.findElements(By.xpath("//*[@id='vets']/tbody/tr"));
+    }
     public void navigateToAddVet(){
         driver.findElement(By.xpath("//a[@class='dropdown-toggle'][text()='Veterinarians']")).click();
         driver.findElement(By.xpath("//a[@routerlink='/vets/add']")).click();
