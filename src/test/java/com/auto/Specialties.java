@@ -1,136 +1,99 @@
 package com.auto;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import static org.testng.Assert.assertEquals;
 
-public class Specialties {
-    private WebDriver driver;
-
-    @BeforeClass
-    public void setUpDriver() {
-        WebDriverManager.chromedriver().setup();
-    }
-
-    @BeforeMethod
-    public void setUp() {
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
-    }
-
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
-    }
-
+public class Specialties extends TestPreconditions{
 
     @Test
     public void pageCheck(){
-        driver.get(home);
-        navigateToSpecPage();
-        String pageHead = "Specialties";
-        String currentPage = driver.findElement(By.xpath("//h2")).getText();
-        assertEquals(pageHead, currentPage);
+        goToSpecialtiesPage();
+        assertUrl(driver.getCurrentUrl());
     }
     @Test
     public void specAddTest() {
-        driver.get(home);
-        navigateToSpecPage();
-        List<WebElement> before = driver.findElements(By.xpath("//tbody/tr"));
+        String name = "LOR";
+        goToHomePage();
+        navigateToSpecPageUsingMenu();
+        List<WebElement> before = driver.findElements(By.xpath(petsAndSpecList));
         specAddButton();
-        nameInput("LOR");
+        driver.findElement(By.xpath(nameIdLocator)).sendKeys(name);
         saveVetButtonClick();
-        List<WebElement> after = driver.findElements(By.xpath("//tbody/tr"));
+        List<WebElement> after = driver.findElements(By.xpath(petsAndSpecList));
         assertEquals(before.size()+1, after.size());
     }
     @Test
     public void addingEmptySpec(){
-        driver.get(home);
-        navigateToSpecPage();
-        assertUrl(driver.getCurrentUrl());
-        List<WebElement> before = driver.findElements(By.xpath("//tbody/tr"));
+        goToSpecialtiesPage();
+        List<WebElement> before = driver.findElements(By.xpath(petsAndSpecList));
         specAddButton();
         saveVetButtonClick();
-        List<WebElement> after = driver.findElements(By.xpath("//tbody/tr"));
+        List<WebElement> after = driver.findElements(By.xpath(petsAndSpecList));
         assertEquals(before.size(), after.size());
     }
     @Test
     public void specCheck(){
         String spec = "Nurse";
-        driver.get(home);
-        navigateToSpecPage();
+        goToSpecialtiesPage();
         specAddButton();
-        driver.findElement(By.xpath("//*[@id='name']")).sendKeys(spec);
+        driver.findElement(By.xpath(nameIdLocator)).sendKeys(spec);
         saveVetButtonClick();
-        String specCheck = driver.findElement(By.xpath("//tbody/tr[last()]/td/input")).getAttribute("ng-reflect-model");
+        driver.navigate().refresh();
+        String specCheck = driver.findElement(By.xpath("//tbody/tr[last()]/td/input")).getAttribute(attribute);
         assertEquals(spec, specCheck);
     }
     @Test
-    public void editPetTypeTest(){
+    public void editSpecTest(){
         String newType = "Surgeon";
-        driver.get(home);
-        navigateToSpecPage();
+        goToSpecialtiesPage();
         driver.findElement(By.xpath("//tr[last()]/td[2]/button[1]")).click();
-        driver.findElement(By.xpath("//*[@id='name']")).clear();
-        driver.findElement(By.xpath("//*[@id='name']")).sendKeys(newType);
+        driver.findElement(By.xpath(nameIdLocator)).clear();
+        driver.findElement(By.xpath(nameIdLocator)).sendKeys(newType);
         driver.findElement(By.xpath("//*[text()='Update']")).click();
-        navigateToSpecPage();
-        String nameCheck = driver.findElement(By.xpath("//tr[last()]/td/input")).getAttribute("ng-reflect-model");
+        navigateToSpecPageUsingMenu();
+        String nameCheck = driver.findElement(By.xpath("//tr[last()]/td/input")).getAttribute(attribute);
         assertEquals(newType, nameCheck);
     }
     @Test
-    public void editPetTypeCancelTest(){
-        driver.get(home);
-        navigateToSpecPage();
-        String oldType = driver.findElement(By.xpath("//tr[1]/td/input")).getAttribute("ng-reflect-model");
+    public void editSpecCancelTest(){
         String newType = "Horse with osteohondroz";
+        goToSpecialtiesPage();
+        String oldType = driver.findElement(By.xpath("//tr[1]/td/input")).getAttribute(attribute);
         driver.findElement(By.xpath("//tr[1]/td[2]/button[1]")).click();
-        driver.findElement(By.xpath("//*[@id='name']")).clear();
-        driver.findElement(By.xpath("//*[@id='name']")).sendKeys(newType);
+        driver.findElement(By.xpath(nameIdLocator)).clear();
+        driver.findElement(By.xpath(nameIdLocator)).sendKeys(newType);
         driver.findElement(By.xpath("//*[text()='Cancel']")).click();
-        navigateToSpecPage();
-        String nameCheck = driver.findElement(By.xpath("//tr[1]/td/input")).getAttribute("ng-reflect-model");
+        navigateToSpecPageUsingMenu();
+        String nameCheck = driver.findElement(By.xpath("//tr[1]/td/input")).getAttribute(attribute);
         assertEquals(oldType, nameCheck);
     }
     @Test
     public void petTypeDeleteTest() {
-        driver.get(home);
-        navigateToSpecPage();
-        List<WebElement> before = driver.findElements(By.xpath("//tbody/tr"));
+        String name = "Godzilllaaaaaa";
+        goToSpecialtiesPage();
+        List<WebElement> before = driver.findElements(By.xpath(petsAndSpecList));
         specAddButton();
-        nameInput("Godzilllaaaaaa");
+        driver.findElement(By.xpath(nameIdLocator)).sendKeys(name);
         saveVetButtonClick();
         driver.findElement(By.xpath("//tbody/tr[last()]/td/button[2]")).click();
-        List<WebElement> afterDelete = driver.findElements(By.xpath("//tbody/tr"));
+        driver.navigate().refresh();
+        List<WebElement> afterDelete = driver.findElements(By.xpath(petsAndSpecList));
         assertEquals(before.size(), afterDelete.size());
     }
-    String home = "http://localhost:8000/petclinic/welcome";
-    String specPage = "http://localhost:8000/petclinic/specialties";
+    String attribute = "ng-reflect-model";
+    String nameIdLocator = "//*[@id='name']";
 
-    public void navigateToSpecPage(){
+    public void navigateToSpecPageUsingMenu(){
         driver.findElement(By.xpath("//*[@routerlink='/specialties']")).click();
     }
     public void specAddButton(){
         driver.findElement(By.xpath("//*[@class='btn btn-default'][text()=' Add ']")).click();
     }
-    public void nameInput(String name){
-        driver.findElement(By.xpath("//*[@id='name']")).sendKeys(name);
-    }
+
     public void saveVetButtonClick(){
         driver.findElement(By.xpath("//*[@class='btn btn-default'][text()='Save']")).click();
-    }
-    public void assertUrl(String url){
-        String currentUrl = driver.getCurrentUrl();
-        assertEquals(currentUrl, url);
     }
 }

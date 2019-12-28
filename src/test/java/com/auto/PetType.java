@@ -1,121 +1,91 @@
 package com.auto;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.*;
 
-public class PetType {
-    private WebDriver driver;
-
-    @BeforeClass
-    public void setUpDriver() {
-        WebDriverManager.chromedriver().setup();
-    }
-
-    @BeforeMethod
-    public void setUp() {
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
-    }
-
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
-    }
+public class PetType extends TestPreconditions{
 
     @Test
     public void pageCheck(){
-        String pageHead = "Pet Types";
-        driver.get(home);
-        navigateToPetTypesPage();
-        String currentPage = driver.findElement(By.xpath("//h2")).getText();
-        assertEquals(pageHead, currentPage);
+        goToPetTypesPage();
+        assertUrl(driver.getCurrentUrl());
     }
     @Test
     public void petTypeAddTest() {
-        driver.get(home);
-        navigateToPetTypesPage();
-        List<WebElement> before = driver.findElements(By.xpath("//tbody/tr"));
+        String name = "Crocodile";
+        goToPetTypesPage();
+        List<WebElement> before = driver.findElements(By.xpath(petsAndSpecList));
         petTypeAddButton();
-        nameInput("Crocodile");
+        driver.findElement(By.xpath(nameIdLocator)).sendKeys(name);
         saveVetButtonClick();
-        List<WebElement> after = driver.findElements(By.xpath("//tbody/tr"));
+        List<WebElement> after = driver.findElements(By.xpath(petsAndSpecList));
         assertEquals(before.size()+1, after.size());
     }
     @Test
     public void addingEmptyPet(){
-        driver.get(home);
-        navigateToPetTypesPage();
+        goToPetTypesPage();
         assertUrl(driver.getCurrentUrl());
-        List<WebElement> before = driver.findElements(By.xpath("//tbody/tr"));
+        List<WebElement> before = driver.findElements(By.xpath(petsAndSpecList));
         petTypeAddButton();
         saveVetButtonClick();
-        List<WebElement> after = driver.findElements(By.xpath("//tbody/tr"));
+        List<WebElement> after = driver.findElements(By.xpath(petsAndSpecList));
         assertEquals(before.size(), after.size());
     }
     @Test
-    public void nameCheck(){
+    public void nameCheck() {
         String petType = "Monkey";
-        driver.get(home);
-        navigateToPetTypesPage();
+        goToPetTypesPage();
         petTypeAddButton();
-        driver.findElement(By.xpath("//*[@id='name']")).sendKeys(petType);
+        driver.findElement(By.xpath(nameIdLocator)).sendKeys(petType);
         saveVetButtonClick();
-        String nameCheck = driver.findElement(By.xpath("//tbody/tr[last()]/td/input")).getAttribute("ng-reflect-model");
+        driver.navigate().refresh();
+        String nameCheck = driver.findElement(By.xpath("//tbody/tr[last()]/td/input")).getAttribute(attribute);
         assertEquals(petType, nameCheck);
     }
     @Test
     public void editPetTypeTest(){
         String newType = "Mozilla";
-        driver.get(home);
-        navigateToPetTypesPage();
+        driver.get(petTypes);
         driver.findElement(By.xpath("//tr[5]/td[2]/button[1]")).click();
-        driver.findElement(By.xpath("//*[@id='name']")).clear();
-        driver.findElement(By.xpath("//*[@id='name']")).sendKeys(newType);
+        driver.findElement(By.xpath(nameIdLocator)).clear();
+        driver.findElement(By.xpath(nameIdLocator)).sendKeys(newType);
         driver.findElement(By.xpath("//*[text()='Update']")).click();
         navigateToPetTypesPage();
-        String nameCheck = driver.findElement(By.xpath("//tr[5]/td/input")).getAttribute("ng-reflect-model");
+        String nameCheck = driver.findElement(By.xpath("//tr[5]/td/input")).getAttribute(attribute);
         assertEquals(newType, nameCheck);
     }
     @Test
     public void editPetTypeCancelTest(){
         String newType = "Sobaka";
-        driver.get(home);
-        navigateToPetTypesPage();
-        String oldType = driver.findElement(By.xpath("//tr[1]/td/input")).getAttribute("ng-reflect-model");
+        driver.get(petTypes);
+        String oldType = driver.findElement(By.xpath("//tr[1]/td/input")).getAttribute(attribute);
         driver.findElement(By.xpath("//tr[1]/td[2]/button[1]")).click();
-        driver.findElement(By.xpath("//*[@id='name']")).clear();
-        driver.findElement(By.xpath("//*[@id='name']")).sendKeys(newType);
+        driver.findElement(By.xpath(nameIdLocator)).clear();
+        driver.findElement(By.xpath(nameIdLocator)).sendKeys(newType);
         driver.findElement(By.xpath("//*[text()='Cancel']")).click();
         navigateToPetTypesPage();
-        String nameCheck = driver.findElement(By.xpath("//tr[1]/td/input")).getAttribute("ng-reflect-model");
+        String nameCheck = driver.findElement(By.xpath("//tr[1]/td/input")).getAttribute(attribute);
         assertEquals(oldType, nameCheck);
     }
     @Test
     public void petTypeDeleteTest() {
-        driver.get(home);
-        navigateToPetTypesPage();
-        List<WebElement> before = driver.findElements(By.xpath("//tbody/tr"));
+        String newtype = "Zombie";
+        driver.get(petTypes);
+        List<WebElement> before = driver.findElements(By.xpath(petsAndSpecList));
         petTypeAddButton();
-        nameInput("Zombie");
+        driver.findElement(By.xpath(nameIdLocator)).sendKeys(newtype);
         saveVetButtonClick();
-        driver.findElement(By.xpath("//tbody/tr[last()]/td/button[2]")).click();
-        List<WebElement> afterDelete = driver.findElements(By.xpath("//tbody/tr"));
+        driver.findElement(By.xpath("//tbody/tr[last()]/td/button[text()='Delete']")).click();
+        driver.navigate().refresh();
+        List<WebElement> afterDelete = driver.findElements(By.xpath(petsAndSpecList));
         assertEquals(before.size(), afterDelete.size());
     }
-    String home = "http://localhost:8000/petclinic/welcome";
-    String petTypes = "http://localhost:8000/petclinic/pettypes";
+    String attribute = "ng-reflect-model";
+    String nameIdLocator = "//*[@id='name']";
 
     public void navigateToPetTypesPage(){
         driver.findElement(By.xpath("//*[@routerlink='/pettypes']")).click();
@@ -123,14 +93,8 @@ public class PetType {
     public void petTypeAddButton(){
         driver.findElement(By.xpath("//*[@class='btn btn-default'][text()=' Add ']")).click();
     }
-    public void nameInput(String name){
-        driver.findElement(By.xpath("//*[@id='name']")).sendKeys(name);
-    }
     public void saveVetButtonClick(){
         driver.findElement(By.xpath("//*[@class='btn btn-default'][text()='Save']")).click();
     }
-    public void assertUrl(String url){
-        String currentUrl = driver.getCurrentUrl();
-        assertEquals(currentUrl, url);
-    }
+
 }

@@ -1,62 +1,46 @@
 package com.auto;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
-public class PetClinicOwner {
-    private WebDriver driver;
 
-    @BeforeClass
-    public void setUpDriver() {
-        WebDriverManager.chromedriver().setup();
-    }
+public class PetClinicOwner extends TestPreconditions{
 
-    @BeforeMethod
-    public void setUp() {
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
-    }
-
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
-    }
 
     @Test
-    public void addNewOwnerTest() {
-        driver.get(owners);
-        List<WebElement> before = driver.findElements(By.cssSelector("td.ownerFullName"));
-        driver.get(home);
-        goToAddOwnerPage();
+    public void pageCheck(){
+        goToHomePage();
         assertUrl(driver.getCurrentUrl());
-        driver.findElement(By.id("firstName")).sendKeys(firstName);
-        driver.findElement(By.id("lastName")).sendKeys(lastName);
-        driver.findElement(By.id("address")).sendKeys("Some Street");
+    }
+    @Test
+    public void addNewOwnerTest() {
+        String firstName = "James";
+        String lastName = "Bond";
+        goToOwnersPage();
+        List<WebElement> before = driver.findElements(By.cssSelector(ownersList));
+        goToHomePage();
+        goToAddOwnerPageUsingMenu();
+        assertUrl(driver.getCurrentUrl());
+        driver.findElement(By.id(firstNameId)).sendKeys(firstName);
+        driver.findElement(By.id(lastNameId)).sendKeys(lastName);
+        driver.findElement(By.id(addressId)).sendKeys("Some Street");
         driver.findElement(By.id("city")).sendKeys("London");
-        driver.findElement(By.id("telephone")).sendKeys("2151212");
+        driver.findElement(By.id(telephoneId)).sendKeys("2151212");
         addOwnerButtonClick();
-        List<WebElement> after = driver.findElements(By.cssSelector("td.ownerFullName"));
+        List<WebElement> after = driver.findElements(By.cssSelector(ownersList));
         assertEquals(before.size()+1, after.size());
     }
 
     @Test
     public void backButtonTest() {
-        driver.get(home);
-        goToAddOwnerPage();
+        goToHomePage();
+        goToAddOwnerPageUsingMenu();
         assertUrl(driver.getCurrentUrl());
         backButtonClick();
         assertEquals(owners, driver.getCurrentUrl());
@@ -64,7 +48,7 @@ public class PetClinicOwner {
 
     @Test
     public void backButtonFromOwnerTest() {
-        driver.get(owners);
+        goToOwnersPage();
         driver.findElement(By.partialLinkText("James Bond")).click();
         assertUrl(driver.getCurrentUrl());
         driver.findElement(By.cssSelector("button.btn.btn-default")).click();
@@ -75,69 +59,68 @@ public class PetClinicOwner {
     public void firstNameValidationTests() {
         String firstName = "First name must be at least 2 characters long";
         String required = "First name is required";
-        driver.get(owners);
+        goToOwnersPage();
         addOwnerButtonClick();
-        driver.findElement(By.id("firstName")).sendKeys("1");
+        driver.findElement(By.id(firstNameId)).sendKeys("1");
         helpBlockGetText();
-        validationesAssert(firstName);
+        validationsAssert(firstName);
 
-        driver.findElement(By.id("firstName")).sendKeys(Keys.BACK_SPACE);
+        driver.findElement(By.id(firstNameId)).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationesAssert(required);
+        validationsAssert(required);
     }
 
     @Test
     public void lastNameValidationTests() {
         String lastName = "Last name must be at least 2 characters long";
         String required = "Last name is required";
-        driver.get(owners);
+        goToOwnersPage();
         addOwnerButtonClick();
-        driver.findElement(By.id("lastName")).sendKeys("q");
+        driver.findElement(By.id(lastNameId)).sendKeys("q");
         helpBlockGetText();
-        validationesAssert(lastName);
+        validationsAssert(lastName);
 
-        driver.findElement(By.id("lastName")).sendKeys(Keys.BACK_SPACE);
+        driver.findElement(By.id(lastNameId)).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationesAssert(required);
+        validationsAssert(required);
     }
 
     @Test
     public void addressValidationTest() {
         String address = "Address is required";
-        driver.get(owners);
+        goToOwnersPage();
         addOwnerButtonClick();
-        driver.findElement(By.id("address")).sendKeys("-");
-        driver.findElement(By.id("address")).sendKeys(Keys.BACK_SPACE);
+        driver.findElement(By.id(addressId)).sendKeys("-");
+        driver.findElement(By.id(addressId)).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationesAssert(address);
+        validationsAssert(address);
     }
 
     @Test
     public void telephoneTest() {
         String phoneError = "Phone number only accept digits";
         String required = "Phone number is required";
-        driver.get(owners);
+        goToOwnersPage();
         addOwnerButtonClick();
-        driver.findElement(By.id("telephone")).sendKeys("q");
+        driver.findElement(By.id(telephoneId)).sendKeys("q");
         helpBlockGetText();
-        validationesAssert(phoneError);
+        validationsAssert(phoneError);
 
-        driver.findElement(By.id("telephone")).sendKeys(Keys.BACK_SPACE);
+        driver.findElement(By.id(telephoneId)).sendKeys(Keys.BACK_SPACE);
         helpBlockGetText();
-        validationesAssert(required);
+        validationsAssert(required);
     }
 
-    public void assertUrl(String url) {
-        String currentUrl = driver.getCurrentUrl();
-        assertEquals(currentUrl, url);
-    }
-
-    public void goToAddOwnerPage() {
+    public void goToAddOwnerPageUsingMenu() {
         WebElement menuOwnerDropdown = driver.findElement(By.className("dropdown-toggle"));
         menuOwnerDropdown.click();
         WebElement addNew = driver.findElement(By.cssSelector("a[href='/petclinic/owners/add']"));
         addNew.click();
     }
+    String firstNameId = "firstName";
+    String lastNameId = "lastName";
+    String addressId = "address";
+    String telephoneId = "telephone";
 
     public void addOwnerButtonClick(){
         driver.findElement(By.xpath("//*[text()='Add Owner']")).click();
@@ -148,13 +131,8 @@ public class PetClinicOwner {
     public void helpBlockGetText(){
         driver.findElement(By.xpath("//span[@class='help-block']")).getText();
     }
-    public void validationesAssert(String helpBlock){
+    public void validationsAssert(String helpBlock){
         String blockText = driver.findElement(By.xpath("//span[@class='help-block']")).getText();
         assertEquals(blockText, helpBlock);
     }
-
-    String home = "http://localhost:8000/petclinic/welcome";
-    String owners = "http://localhost:8000/petclinic/owners";
-    String firstName = "James";
-    String lastName = "Bond";
 }
