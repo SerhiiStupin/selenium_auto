@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -29,13 +30,14 @@ public class AddPetsToOwner extends TestPreconditions{
         String petName = "Nymeria";
         goToOwnersPage();
         addOwnerButtonClick();
-        driver.findElement(By.xpath(nameIdLocator)).sendKeys(firstName);
+        driver.findElement(By.xpath("//*[@id='firstName']")).sendKeys(firstName);
         driver.findElement(By.xpath("//*[@id='lastName']")).sendKeys(lastName);
         driver.findElement(By.xpath("//*[@id='address']")).sendKeys("The Wall");
         driver.findElement(By.xpath("//*[@id='city']")).sendKeys("Winterfell");
         driver.findElement(By.xpath("//*[@id='telephone']")).sendKeys("2151212");
         addOwnerButtonClick();
         goToOwnersPage();
+        waiting().until(ExpectedConditions.textMatches(By.xpath("//h2"), Pattern.compile("Owners")));
         WebElement newOwner = driver.findElement(By.xpath("//*[text()='John Snow']"));
         assertTrue(newOwner.isDisplayed());
         newOwner.click();
@@ -52,14 +54,12 @@ public class AddPetsToOwner extends TestPreconditions{
         driver.findElement(By.xpath("//*[@id='type']")).click();
         driver.findElement(By.xpath("//div/select/option[last()]")).click();
         driver.findElement(By.xpath("//*[@type='submit']")).click();
-//        WebElement petAdded = driver.findElement(By.xpath("//*[text()='Edit Pet']"));
-//        assertTrue(petAdded.isDisplayed());
         String nameCheck = driver.findElement(By.xpath("//dl/dd[1]")).getText();
         assertEquals(petName, nameCheck);
         goToOwnersPage();
+        waiting().until(ExpectedConditions.textMatches(By.xpath("//h2"), Pattern.compile("Owners")));
         String petAddingCheck = driver.findElement(By.xpath("//tr[11]/td[last()]/tr[1]")).getText();
         assertEquals(petName, petAddingCheck);
-
     }
 
     String title = "Add Pet";
