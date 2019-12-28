@@ -30,11 +30,16 @@ public class AddPetsToOwner extends TestPreconditions{
         String petName = "Nymeria";
         goToOwnersPage();
         addOwnerButtonClick();
-        driver.findElement(By.xpath("//*[@id='firstName']")).sendKeys(firstName);
-        driver.findElement(By.xpath("//*[@id='lastName']")).sendKeys(lastName);
-        driver.findElement(By.xpath("//*[@id='address']")).sendKeys("The Wall");
-        driver.findElement(By.xpath("//*[@id='city']")).sendKeys("Winterfell");
-        driver.findElement(By.xpath("//*[@id='telephone']")).sendKeys("2151212");
+        driver.findElement(By.xpath(nameID)).clear();
+        driver.findElement(By.xpath(nameID)).sendKeys(firstName);
+        driver.findElement(By.xpath(lastNameId)).clear();
+        driver.findElement(By.xpath(lastNameId)).sendKeys(lastName);
+        driver.findElement(By.xpath(address)).clear();
+        driver.findElement(By.xpath(address)).sendKeys("The Wall");
+        driver.findElement(By.xpath(city)).clear();
+        driver.findElement(By.xpath(city)).sendKeys("Winterfell");
+        driver.findElement(By.xpath(telephone)).clear();
+        driver.findElement(By.xpath(telephone)).sendKeys("2151212");
         addOwnerButtonClick();
         goToOwnersPage();
         waiting().until(ExpectedConditions.textMatches(By.xpath("//h2"), Pattern.compile("Owners")));
@@ -64,6 +69,11 @@ public class AddPetsToOwner extends TestPreconditions{
 
     String title = "Add Pet";
     String nameIdLocator = "//*[@id='name']";
+    String nameID = "//*[@id='firstName']";
+    String lastNameId = "//*[@id='lastName']";
+    String address = "//*[@id='address']";
+    String city = "//*[@id='city']";
+    String telephone = "//*[@id='telephone']";
 
     public void addOwnerButtonClick(){
         driver.findElement(By.xpath("//*[text()='Add Owner']")).click();

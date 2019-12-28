@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import static org.testng.Assert.assertEquals;
 
 public class TestPreconditions {
+    private static final String DEFAULT_URL = "http://localhost:8000/petclinic";
     public WebDriver driver;
 
     @BeforeClass
@@ -32,7 +33,6 @@ public class TestPreconditions {
     public void tearDown() {
         driver.quit();
     }
-    String DEFAULT_URL = "http://localhost:8000/petclinic";
     String home = DEFAULT_URL + "/welcome";
     String owners = DEFAULT_URL + "/owners";
     String vets = DEFAULT_URL + "/vets";
