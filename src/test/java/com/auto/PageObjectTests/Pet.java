@@ -1,11 +1,8 @@
 package com.auto.PageObjectTests;
 
-import org.openqa.selenium.WebDriver;
 import java.util.Objects;
 
 public class Pet {
-    private WebDriver driver;
-
     private String name;
 
     public String getName() {

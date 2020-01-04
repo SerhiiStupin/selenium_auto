@@ -1,7 +1,6 @@
 package com.auto.PageObjectTests;
 
 import com.auto.TestPreconditions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 import java.util.List;
@@ -27,25 +26,25 @@ public class PetTests extends TestPreconditions {
     public void addingEmptyPet(){
         goToPetTypesPage();
         PetTypePage petTypePage = new PetTypePage(driver);
-        List<WebElement> before = driver.findElements(By.xpath(petTypePage.petsList));
+        List<WebElement> before = petTypePage.petsList();
         petTypePage.addBtn();
         petTypePage.saveBtn();
-        List<WebElement> after = driver.findElements(By.xpath(petTypePage.petsList));
+        List<WebElement> after = petTypePage.petsList();
         assertThat(before.size()).isEqualTo(after.size());
     }
     @Test
     public void petTypeDeleteTest() {
         goToPetTypesPage();
         PetTypePage petTypePage = new PetTypePage(driver);
-        List<WebElement> before = driver.findElements(By.xpath(petTypePage.petsList));
+        List<WebElement> before = petTypePage.petsList();
         petTypePage.addBtn();
         petTypePage.setName("Chupakabra");
         petTypePage.saveBtn();
         assertThat(petTypePage.typeList()).isEqualTo("Chupakabra");
-        List<WebElement> afterAdding = driver.findElements(By.xpath(petTypePage.petsList));
+        List<WebElement> afterAdding = petTypePage.petsList();
         assertThat(before.size()+1).isEqualTo(afterAdding.size());
         petTypePage.deleteLast();
-        List<WebElement> afterDeleting = driver.findElements(By.xpath(petTypePage.petsList));
+        List<WebElement> afterDeleting = petTypePage.petsList();
         assertThat(before.size()).isEqualTo(afterDeleting.size());
     }
         @Test

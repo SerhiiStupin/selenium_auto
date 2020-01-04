@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PetTypePage {
@@ -13,8 +12,16 @@ public class PetTypePage {
     public PetTypePage(WebDriver driver) {
         this.driver = driver;
     }
+    //String petsList = "//tbody/tr";
 
+    public List<WebElement> petsList() {
+        List<WebElement> list = driver.findElements(By.xpath("//tbody/tr"));
+        return list;
+    }
 
+    public String typeList() {
+        return driver.findElement(By.xpath("//tr[last()]/td/input")).getAttribute("ng-reflect-model");
+    }
     public void setName (String name){
         WebElement nameField = driver.findElement(By.xpath("//*[@id='name']"));
         nameField.clear();
@@ -51,9 +58,5 @@ public class PetTypePage {
 //        }
 //        return petList();
 //    }
-    public String typeList() {
-        return driver.findElement(By.xpath("//tr[last()]/td/input")).getAttribute("ng-reflect-model");
-    }
 
-    String petsList = "//tbody/tr";
 }

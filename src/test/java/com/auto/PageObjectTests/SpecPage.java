@@ -5,11 +5,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class SpecPage {
     private WebDriver driver;
-
     public SpecPage(WebDriver driver) {
         this.driver = driver;
+    }
+    public List<WebElement> specialists(){
+        List<WebElement> list = driver.findElements(By.xpath("//tbody/tr"));
+        return list;
     }
     public void setName (String name){
         WebElement nameField = driver.findElement(By.xpath("//*[@id='name']"));
@@ -35,6 +40,4 @@ public class SpecPage {
     public String specList() {
         return driver.findElement(By.xpath("//tr[last()]/td/input")).getAttribute("ng-reflect-model");
     }
-    String specRow = "//tbody/tr";
-
 }

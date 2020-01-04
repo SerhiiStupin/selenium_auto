@@ -41,11 +41,11 @@ public class VetTests extends TestPreconditions {
     @Test
     public void addEmptyVet(){
         VeterinariansPage veterinariansPage = goToVetsPage();
-        List<WebElement> before = driver.findElements(By.xpath(veterinariansPage.vetsList));
+        List<WebElement> before = veterinariansPage.veterinariansList();
         NewVeterPage newVeterPage = veterinariansPage.clickAddBtn();
         veterinariansPage = newVeterPage.saveVetButtonClick();
         goToVetsPage();
-        List<WebElement> after = driver.findElements(By.xpath(veterinariansPage.vetsList));
+        List<WebElement> after = veterinariansPage.veterinariansList();
         assertThat(before.size()).isEqualTo(after.size());
     }
     @Test
@@ -72,12 +72,12 @@ public class VetTests extends TestPreconditions {
     @Test
     public void createVetWithoutType(){
         VeterinariansPage veterinariansPage = goToVetsPage();
-        List<WebElement> before = driver.findElements(By.xpath(veterinariansPage.vetsList));
+        List<WebElement> before = veterinariansPage.veterinariansList();
         NewVeterPage newVeterPage = veterinariansPage.clickAddBtn();
         newVeterPage.setFirstName("Sponge");
         newVeterPage.setLastName("Bob");
         veterinariansPage = newVeterPage.saveVetButtonClick();
-        List<WebElement> after = driver.findElements(By.xpath(veterinariansPage.vetsList));
+        List<WebElement> after = veterinariansPage.veterinariansList();
         assertThat(before.size()+1).isEqualTo(after.size());
     }
     @Test
@@ -86,5 +86,4 @@ public class VetTests extends TestPreconditions {
         veterinariansPage.homeBtn();
         assertUrl(home);
     }
-
 }
