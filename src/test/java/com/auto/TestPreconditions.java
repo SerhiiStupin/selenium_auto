@@ -1,8 +1,11 @@
 package com.auto;
 
+import com.auto.PageObjectTests.PetTypePage;
+import com.auto.PageObjectTests.VeterinariansPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -33,15 +36,16 @@ public class TestPreconditions {
     public void tearDown() {
         driver.quit();
     }
-    String home = DEFAULT_URL + "/welcome";
-    String owners = DEFAULT_URL + "/owners";
-    String vets = DEFAULT_URL + "/vets";
-    String petTypes = DEFAULT_URL + "/pettypes";
-    String specPage = DEFAULT_URL + "/specialties";
+    protected String home = DEFAULT_URL + "/welcome";
+    protected String owners = DEFAULT_URL + "/owners";
+    protected String vets = DEFAULT_URL + "/vets";
+    protected String petTypes = DEFAULT_URL + "/pettypes";
+    protected String specPage = DEFAULT_URL + "/specialties";
 
     String ownersList = "td.ownerFullName";
     String vetsList = "//*[@id='vets']/tbody/tr";
     String petsAndSpecList = "//tbody/tr";
+
 
 
     protected void goToHomePage() {
@@ -50,11 +54,16 @@ public class TestPreconditions {
     protected void goToOwnersPage() {
         navigateToPage(DEFAULT_URL + "/owners", "Owners");
     }
-    protected void goToVetsPage() {
+    protected VeterinariansPage goToVetsPage() {
         navigateToPage(DEFAULT_URL + "/vets","Veterinarians");
+        return new VeterinariansPage(driver);
     }
-    protected void goToPetTypesPage() {
+    protected void goToAddVetPage() {
+        navigateToPage(DEFAULT_URL + "/vets/add","New Veterinarian");
+    }
+    protected PetTypePage goToPetTypesPage() {
         navigateToPage(DEFAULT_URL + "/pettypes",  "Pet Types");
+        return new PetTypePage(driver);
     }
     protected void goToSpecialtiesPage() {
         navigateToPage(DEFAULT_URL + "/specialties",  "Specialties");

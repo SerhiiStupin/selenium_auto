@@ -52,12 +52,7 @@ public class AddSpecialityToVet extends TestPreconditions {
 //                }
 //            }
 //    }
-//    @Test
-//    public void gdgdTest(){
-//        goToVetsPage();
-//        String fjf = driver.findElement(By.xpath("//tr[5]/td[2]/div")).getText();
-//        System.out.println(fjf);
-//    }
+
     String firstNameLocator = "//*[@id='firstName']";
     String lastNameLocator = "//*[@id='lastName']";
 
