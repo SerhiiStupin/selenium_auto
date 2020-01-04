@@ -15,13 +15,14 @@ public class SpecTests extends TestPreconditions {
         assertUrl(driver.getCurrentUrl());
     }
     @Test
-    public void petTypeAddTest() {
+    public void specialtyAddingTest() {
+        String spec = "X-Ray";
         goToSpecialtiesPage();
         SpecPage specPage = new SpecPage(driver);
         specPage.addBtn();
-        specPage.setName("X-Ray");
+        specPage.setName(spec);
         specPage.saveBtn();
-        assertThat(specPage.specList()).isEqualTo("X-Ray");
+        assertThat(specPage.specList()).isEqualTo(spec);
     }
     @Test
     public void addingEmptyPet(){
@@ -35,13 +36,14 @@ public class SpecTests extends TestPreconditions {
     }
     @Test
     public void petTypeDeleteTest() {
+        String spec = "LOR";
         goToSpecialtiesPage();
         SpecPage specPage = new SpecPage(driver);
         List<WebElement> before = specPage.specialists();
         specPage.addBtn();
-        specPage.setName("LOR");
+        specPage.setName(spec);
         specPage.saveBtn();
-        assertThat(specPage.specList()).isEqualTo("LOR");
+        assertThat(specPage.specList()).isEqualTo(spec);
         List<WebElement> afterAdding = specPage.specialists();
         assertThat(before.size()+1).isEqualTo(afterAdding.size());
         specPage.deleteLast();

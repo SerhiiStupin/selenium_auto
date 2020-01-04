@@ -15,12 +15,13 @@ public class PetTests extends TestPreconditions {
     }
     @Test
     public void petTypeAddTest() {
+        String name = "Alligator";
         goToPetTypesPage();
         PetTypePage petTypePage = new PetTypePage(driver);
         petTypePage.addBtn();
-        petTypePage.setName("Alligator");
+        petTypePage.setName(name);
         petTypePage.saveBtn();
-        assertThat(petTypePage.typeList()).isEqualTo("Alligator");
+        assertThat(petTypePage.typeList()).isEqualTo(name);
     }
     @Test
     public void addingEmptyPet(){
@@ -34,13 +35,14 @@ public class PetTests extends TestPreconditions {
     }
     @Test
     public void petTypeDeleteTest() {
+        String name = "Chupakabra";
         goToPetTypesPage();
         PetTypePage petTypePage = new PetTypePage(driver);
         List<WebElement> before = petTypePage.petsList();
         petTypePage.addBtn();
-        petTypePage.setName("Chupakabra");
+        petTypePage.setName(name);
         petTypePage.saveBtn();
-        assertThat(petTypePage.typeList()).isEqualTo("Chupakabra");
+        assertThat(petTypePage.typeList()).isEqualTo(name);
         List<WebElement> afterAdding = petTypePage.petsList();
         assertThat(before.size()+1).isEqualTo(afterAdding.size());
         petTypePage.deleteLast();
