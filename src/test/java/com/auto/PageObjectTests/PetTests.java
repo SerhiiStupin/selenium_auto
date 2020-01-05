@@ -55,5 +55,5 @@ public class PetTests extends TestPreconditions {
         PetTypePage petTypePage = new PetTypePage(driver);
         petTypePage.homeBtn();
         assertUrl(home);
-        }
+    }
 }

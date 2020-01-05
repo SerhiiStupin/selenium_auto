@@ -15,8 +15,8 @@ public class PetTypePage {
     //String petsList = "//tbody/tr";
 
     public List<WebElement> petsList() {
-        List<WebElement> list = driver.findElements(By.xpath("//tbody/tr"));
-        return list;
+        List<WebElement> listOfPets = driver.findElements(By.xpath("//tbody/tr"));
+        return listOfPets;
     }
 
     public String typeList() {
