@@ -1,6 +1,7 @@
 package com.auto.PageObjectTests;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -11,10 +12,10 @@ public class NewVeterPage {
         this.driver = driver;
     }
     String firstNameLongValidation = "First name must be at least 2 characters long";
-    //String requiredFirst = "First name is required";
+    String requiredFirst = "First name is required";
     String firstName = "firstName";
     String lastNamelongValidation = "Last name must be at least 2 characters long";
-    //String requiredLast = "Last name is required";
+    String requiredLast = "Last name is required";
     String lastName = "lastName";
     //WebElement backButton = (WebElement) By.xpath("//*[@class='btn btn-default'][text()='< Back']");
 
@@ -29,10 +30,18 @@ public class NewVeterPage {
         nameField.clear();
         nameField.sendKeys(firstName);
     }
+    public void clearFirstName(){
+        WebElement nameField = driver.findElement(By.xpath("//*[@id='firstName']"));
+        nameField.sendKeys(Keys.BACK_SPACE);
+    }
     public void setLastName(String lastName){
         WebElement lastNameField = driver.findElement(By.xpath("//*[@id='lastName']"));
         lastNameField.clear();
         lastNameField.sendKeys(lastName);
+    }
+    public void clearLastName(){
+        WebElement nameField = driver.findElement(By.xpath("//*[@id='lastName']"));
+        nameField.sendKeys(Keys.BACK_SPACE);
     }
     public void specTypeList(int itemSelect){
         WebElement specList = driver.findElement(By.xpath("//*[@id='specialties']"));

@@ -53,6 +53,9 @@ public class VetTests extends TestPreconditions {
         NewVeterPage newVeterPage = veterinariansPage.clickAddBtn();
         newVeterPage.setFirstName("*");
         assertThat(newVeterPage.helpBlockGetText(newVeterPage.firstName)).isEqualTo(newVeterPage.firstNameLongValidation);
+
+        newVeterPage.clearFirstName();
+        assertThat(newVeterPage.helpBlockGetText(newVeterPage.firstName)).isEqualTo(newVeterPage.requiredFirst);
     }
     @Test
     public void lastNameValidationTests(){
@@ -61,12 +64,8 @@ public class VetTests extends TestPreconditions {
         newVeterPage.setLastName("-");
         assertThat(newVeterPage.helpBlockGetText(newVeterPage.lastName)).isEqualTo(newVeterPage.lastNamelongValidation);
 
-         // Не отрабатывает нормально нажатие Keys.BACK_SPACE.
-//        newVeterPage.setLastName(Keys.BACK_SPACE.toString());
-//        //driver.findElement(By.xpath(lastNameLocator)).sendKeys(Keys.BACK_SPACE);
-//        helpBlockGetText(lastName);
-//        assertThat(blockText.equals(requiredLast));
-//        validationesAssert(requiredLast);
+        newVeterPage.clearLastName();
+        assertThat(newVeterPage.helpBlockGetText(newVeterPage.lastName)).isEqualTo(newVeterPage.requiredLast);
     }
     @Test
     public void createVetWithoutType(){

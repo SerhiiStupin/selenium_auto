@@ -13,8 +13,7 @@ public class SpecPage {
         this.driver = driver;
     }
     public List<WebElement> specialists(){
-        List<WebElement> list = driver.findElements(By.xpath("//tbody/tr"));
-        return list;
+        return driver.findElements(By.xpath("//tbody/tr"));
     }
     public void setName (String name){
         WebElement nameField = driver.findElement(By.xpath("//*[@id='name']"));

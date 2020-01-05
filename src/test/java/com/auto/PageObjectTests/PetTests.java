@@ -49,7 +49,7 @@ public class PetTests extends TestPreconditions {
         List<WebElement> afterDeleting = petTypePage.petsList();
         assertThat(before.size()).isEqualTo(afterDeleting.size());
     }
-        @Test
+    @Test
     public void homeButtonTest() {
         goToPetTypesPage();
         PetTypePage petTypePage = new PetTypePage(driver);

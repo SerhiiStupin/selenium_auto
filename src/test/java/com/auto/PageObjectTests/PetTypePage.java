@@ -12,11 +12,9 @@ public class PetTypePage {
     public PetTypePage(WebDriver driver) {
         this.driver = driver;
     }
-    //String petsList = "//tbody/tr";
 
     public List<WebElement> petsList() {
-        List<WebElement> listOfPets = driver.findElements(By.xpath("//tbody/tr"));
-        return listOfPets;
+        return driver.findElements(By.xpath("//tbody/tr"));
     }
 
     public String typeList() {
