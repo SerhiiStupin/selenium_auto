@@ -26,21 +26,21 @@ public class NewVeterPage {
     }
 
     public void setFirstName(String firstName){
-        WebElement nameField = driver.findElement(By.xpath("//*[@id='firstName']"));
+        WebElement nameField = firstNameLocator();
         nameField.clear();
         nameField.sendKeys(firstName);
     }
     public void clearFirstName(){
-        WebElement nameField = driver.findElement(By.xpath("//*[@id='firstName']"));
+        WebElement nameField = firstNameLocator();
         nameField.sendKeys(Keys.BACK_SPACE);
     }
     public void setLastName(String lastName){
-        WebElement lastNameField = driver.findElement(By.xpath("//*[@id='lastName']"));
+        WebElement lastNameField = lastNameLocator();
         lastNameField.clear();
         lastNameField.sendKeys(lastName);
     }
     public void clearLastName(){
-        WebElement nameField = driver.findElement(By.xpath("//*[@id='lastName']"));
+        WebElement nameField = lastNameLocator();
         nameField.sendKeys(Keys.BACK_SPACE);
     }
     public void specTypeList(int itemSelect){
@@ -58,5 +58,11 @@ public class NewVeterPage {
         WebElement actualError = driver.findElement(By.xpath("//*[@id='" + name + "']/following-sibling::span[2]"));
         actualError.getText();
         return actualError.getText();
+    }
+    private WebElement firstNameLocator(){
+        return driver.findElement(By.xpath("//*[@id='firstName']"));
+    }
+    private WebElement lastNameLocator(){
+        return driver.findElement(By.xpath("//*[@id='lastName']"));
     }
 }
