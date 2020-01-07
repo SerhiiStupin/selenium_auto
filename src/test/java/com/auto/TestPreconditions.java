@@ -1,12 +1,13 @@
 package com.auto;
 
+import com.auto.PageObjectTests.Configuration;
 import com.auto.PageObjectTests.PetTypePage;
 import com.auto.PageObjectTests.VeterinariansPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
@@ -24,11 +25,12 @@ public class TestPreconditions {
     @BeforeClass
     public void setUpDriver() {
         WebDriverManager.chromedriver().setup();
+        WebDriverManager.firefoxdriver().setup();
     }
 
     @BeforeMethod
     public void setUp() {
-        driver = new ChromeDriver();
+        driver = Configuration.getBrowser().browser();
         driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
     }
 
