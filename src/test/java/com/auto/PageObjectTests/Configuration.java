@@ -1,34 +1,76 @@
 package com.auto.PageObjectTests;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Configuration {
-    private static Configuration browser;
-    //public WebDriver driver;
-    public ChromeDriver chrome;
-    public FirefoxDriver firefox;
+    private static WebDriver driver;
+    private static WebDriver chrome;
+    private static WebDriver firefox;
+//    private ChromeDriver chrome;
+//    private FirefoxDriver firefox;
 
-    public static Configuration getBrowser(){
-        if (browser == null){
-            browser = new Configuration();
+    public static WebDriver getDriver() {
+        return driver;
+    }
+
+    public static WebDriver driver(){
+
+        if (driver == null){
+            //System.setProperty("webdriver.chrome.driver", "WebDriverManager.chromedriver().setup()");
+            driver = new ChromeDriver();
         }
-        return browser;
+        else if (driver == chrome){
+            driver = new ChromeDriver();
+        }
+        else if (driver == firefox){
+            driver = new FirefoxDriver();
+        }
+        else {
+            driver = new FirefoxDriver();
+        }
+        return driver;
     }
-//    public WebDriver setUpBrowser() {
-//        chrome = new ChromeDriver();
-//    return chrome;
-//    }
-    public WebDriver setUpBrowser() {
-        firefox = new FirefoxDriver();
-        return firefox;
-    }
-    public WebDriver browser(){
-        return setUpBrowser();
-    }
+//    private static Configuration browser;
+//
+//    private ChromeDriver chrome;
+//    private FirefoxDriver firefox;
+//
 
+//    public ChromeDriver getChrome() {
+//        WebDriverManager.chromedriver().setup();
+//        return chrome;
+//    }
+//
+//    public FirefoxDriver getFirefox() {
+//        return firefox;
+//    }
+//
+//    public static Configuration getBrowser(){
+//        if (browser == null){
+//            browser = new Configuration();
+//        }
+//        return browser;
+//    }
+////    public WebDriver setUpBrowser() {
+////        chrome = new ChromeDriver();
+////    return chrome;
+////    }
+//    public WebDriver setUpBrowser() {
+//        firefox = new FirefoxDriver();
+//        return firefox;
+//    }
+//    public WebDriver browser(){
+//        return setUpBrowser();
+//    }
 }
+
+
+
+
+
 //    public void setUpDriver() {
 //        WebDriverManager.chromedriver().setup();
 //        WebDriverManager.firefoxdriver().setup();

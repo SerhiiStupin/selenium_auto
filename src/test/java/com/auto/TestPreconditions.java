@@ -15,7 +15,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import java.util.concurrent.TimeUnit;
-
 import static org.testng.Assert.assertEquals;
 
 public class TestPreconditions {
@@ -30,7 +29,8 @@ public class TestPreconditions {
 
     @BeforeMethod
     public void setUp() {
-        driver = Configuration.getBrowser().browser();
+        driver = Configuration.driver();
+       // driver = Configuration.getBrowser().browser();
         driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
     }
 
