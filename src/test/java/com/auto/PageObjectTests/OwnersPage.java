@@ -16,6 +16,11 @@ public class OwnersPage extends TestPreconditions {
         this.driver = driver;
     }
 
+    public WebElement addedOwnerSearch() {
+        WebElement newOwner = driver.findElement(By.xpath("//*[text()='John Snow']"));
+        return newOwner;
+    }
+
     public OwnersPage openPage() {
         goToUrl("/owners", "Owners");
         return this;
@@ -78,5 +83,11 @@ public class OwnersPage extends TestPreconditions {
     }
     public List<WebElement> ownersList(){
         return driver.findElements(By.cssSelector("td.ownerFullName"));
+    }
+
+    public OwnerInformationPage openOwnerInfo(String fullName) {
+        WebElement owner = driver.findElement(By.xpath("//a[text()='"+fullName+"']"));
+        owner.click();
+        return new OwnerInformationPage(driver);
     }
 }

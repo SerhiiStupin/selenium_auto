@@ -1,27 +1,50 @@
 package com.auto.PageObjectTests;
 
-import java.util.Objects;
-
 public class Pet {
     private String name;
+    private String birthDate;
+    private String Type;
+
+    public Pet() {
+    }
+
+    public Pet(String name, String birthDate, String type) {
+        this.name = name;
+        this.birthDate = birthDate;
+        Type = type;
+    }
+
 
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pet that = (Pet) o;
-        return Objects.equals(name, that.name);
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(name);
+    public String toString() {
+        return "Pet{" +
+                "name='" + name + '\'' +
+                ", birthDate='" + birthDate + '\'' +
+                ", Type='" + Type + '\'' +
+                '}';
     }
 }

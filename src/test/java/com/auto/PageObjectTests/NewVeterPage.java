@@ -11,12 +11,6 @@ public class NewVeterPage {
     public NewVeterPage(WebDriver driver) {
         this.driver = driver;
     }
-    String firstNameLongValidation = "First name must be at least 2 characters long";
-    String requiredFirst = "First name is required";
-    String firstName = "firstName";
-    String lastNamelongValidation = "Last name must be at least 2 characters long";
-    String requiredLast = "Last name is required";
-    String lastName = "lastName";
     //WebElement backButton = (WebElement) By.xpath("//*[@class='btn btn-default'][text()='< Back']");
 
     public void createVet(Veterinarian veterinarian) {

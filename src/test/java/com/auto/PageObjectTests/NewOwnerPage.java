@@ -7,18 +7,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class NewOwnerPage {
-    String firstNameLongValidation = "First name must be at least 2 characters long";
-    String requiredFirst = "First name is required";
+
     String firstNameLocator = "firstName";
-    String lastNamelongValidation = "Last name must be at least 2 characters long";
-    String requiredLast = "Last name is required";
     String lastNameLocator = "lastName";
-    String address = "Address is required";
     String addressLocator = "address";
-    String city = "City is required";
     String cityLocator = "city";
-    String telephone ="Phone number only accept digits";
-    String telephoneRequired = "Phone number is required";
     String telephoneLocator = "telephone";
 
     private WebDriver driver;

@@ -26,7 +26,7 @@ public class TestPreconditions {
     @BeforeMethod
     public void setUp() {
         //driver = WebDriverFactory.getDriver();
-        driver = DriverManager.getManager(DriverType.FIREFOX);
+        driver = DriverManager.getManager(DriverType.CHROME);
     }
 
         protected void goToHomePage() {

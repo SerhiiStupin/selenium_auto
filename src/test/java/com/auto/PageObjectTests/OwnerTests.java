@@ -48,56 +48,65 @@ public class OwnerTests extends TestPreconditions {
     }
     @Test
     public void firstNameValidationTests() {
+        String firstNameLongValidation = "First name must be at least 2 characters long";
+        String requiredFirst = "First name is required";
         goToOwnersPage();
         OwnersPage ownersPage = new OwnersPage(driver);
         NewOwnerPage newOwnerPage = ownersPage.clickAddOwnerBtn();
         newOwnerPage.setFirstName("w");
-        assertThat(newOwnerPage.firstNameLongValidation).isEqualTo(newOwnerPage.helpBlock());
+        assertThat(firstNameLongValidation).isEqualTo(newOwnerPage.helpBlock());
 
         newOwnerPage.clearFName();
-        assertThat(newOwnerPage.requiredFirst).isEqualTo(newOwnerPage.helpBlock());
+        assertThat(requiredFirst).isEqualTo(newOwnerPage.helpBlock());
     }
     @Test
     public void lastNameValidationTests() {
+        String lastNamelongValidation = "Last name must be at least 2 characters long";
+        String requiredLast = "Last name is required";
         goToOwnersPage();
         OwnersPage ownersPage = new OwnersPage(driver);
         NewOwnerPage newOwnerPage = ownersPage.clickAddOwnerBtn();
         newOwnerPage.setLastName("p");
-        assertThat(newOwnerPage.lastNamelongValidation).isEqualTo(newOwnerPage.helpBlock());
+        assertThat(lastNamelongValidation).isEqualTo(newOwnerPage.helpBlock());
 
         newOwnerPage.clearLastName();
-        assertThat(newOwnerPage.requiredLast).isEqualTo(newOwnerPage.helpBlock());
+        assertThat(requiredLast).isEqualTo(newOwnerPage.helpBlock());
     }
 
     @Test
     public void addressValidationTest() {
+        String address = "Address is required";
+
         goToOwnersPage();
         OwnersPage ownersPage = new OwnersPage(driver);
         NewOwnerPage newOwnerPage = ownersPage.clickAddOwnerBtn();
         newOwnerPage.setAddress("*");
         newOwnerPage.clearAddress();
-        assertThat(newOwnerPage.address).isEqualTo(newOwnerPage.helpBlock());
+        assertThat(address).isEqualTo(newOwnerPage.helpBlock());
     }
     @Test
     public void cityValidationTest() {
+        String city = "City is required";
         goToOwnersPage();
         OwnersPage ownersPage = new OwnersPage(driver);
         NewOwnerPage newOwnerPage = ownersPage.clickAddOwnerBtn();
         newOwnerPage.setCity("-");
         newOwnerPage.clearCity();
-        assertThat(newOwnerPage.city).isEqualTo(newOwnerPage.helpBlock());
+        assertThat(city).isEqualTo(newOwnerPage.helpBlock());
     }
 
     @Test
     public void telephoneTest() {
+        String telephone ="Phone number only accept digits";
+        String telephoneRequired = "Phone number is required";
         goToOwnersPage();
         OwnersPage ownersPage = new OwnersPage(driver);
         NewOwnerPage newOwnerPage = ownersPage.clickAddOwnerBtn();
         newOwnerPage.setTelephone(" ");
-        assertThat(newOwnerPage.telephone).isEqualTo(newOwnerPage.helpBlock());
+        assertThat(telephone).isEqualTo(newOwnerPage.helpBlock());
 
         newOwnerPage.clearTelephone();
-        assertThat(newOwnerPage.telephoneRequired).isEqualTo(newOwnerPage.helpBlock());
+        assertThat(telephoneRequired).isEqualTo(newOwnerPage.helpBlock());
     }
 
 }
