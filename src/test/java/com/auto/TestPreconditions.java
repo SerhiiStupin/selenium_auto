@@ -1,9 +1,6 @@
 package com.auto;
 
-import com.auto.PageObjectTests.BrowserSelect;
-import com.auto.PageObjectTests.PetTypePage;
-import com.auto.PageObjectTests.VeterinariansPage;
-import com.auto.PageObjectTests.WebDriverFactory;
+import com.auto.PageObjectTests.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -29,12 +26,7 @@ public class TestPreconditions {
     @BeforeMethod
     public void setUp() {
         //driver = WebDriverFactory.getDriver();
-        driver = WebDriverFactory.getManager();
-    }
-
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
+        driver = DriverManager.getManager(DriverType.FIREFOX);
     }
 
         protected void goToHomePage() {

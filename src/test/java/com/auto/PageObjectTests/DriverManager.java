@@ -5,29 +5,31 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.util.concurrent.TimeUnit;
+import static com.auto.PageObjectTests.DriverType.CHROME;
+import static com.auto.PageObjectTests.DriverType.FIREFOX;
 
-public class WebDriverFactory {
-public static WebDriver getDriver() {
-    String browser = Configuration.getInstance().getBrowser();
-    WebDriver driver;
+public class DriverManager {
+    public static WebDriver getManager(DriverType type) {
+//        DriverType chrome = DriverType.CHROME;
+//        DriverType firefox = DriverType.FIREFOX;
 
-        switch (browser.toLowerCase()) {
-            case "chrome":
+        WebDriver driver;
+
+        switch (type) {
+            case CHROME:
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver();
                 break;
-            case "firefox":
+            case FIREFOX:
                 WebDriverManager.firefoxdriver().setup();
-                driver =  new FirefoxDriver();
+                driver = new FirefoxDriver();
                 break;
             default:
                 WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
+                driver = new FirefoxDriver();
+                break;
         }
-
-        driver.manage().timeouts().implicitlyWait(4000, TimeUnit.MILLISECONDS);
-
         return driver;
+
     }
 }
