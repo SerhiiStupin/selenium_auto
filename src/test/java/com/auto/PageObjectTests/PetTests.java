@@ -1,12 +1,17 @@
 package com.auto.PageObjectTests;
 
 import com.auto.TestPreconditions;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PetTests extends TestPreconditions {
+//
+//    public PetTests(WebDriver driver) {
+//        super(driver);
+//    }
 
     @Test
     public void pageCheck(){

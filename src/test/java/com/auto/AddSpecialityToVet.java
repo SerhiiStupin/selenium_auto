@@ -2,6 +2,7 @@ package com.auto;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
@@ -9,6 +10,10 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 public class AddSpecialityToVet extends TestPreconditions {
+//    public AddSpecialityToVet(WebDriver driver) {
+//        super(driver);
+//    }
+
     @Test
     public void addProfessionToVet() {
         String vetProfession = "dentistry";

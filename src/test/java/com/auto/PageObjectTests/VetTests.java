@@ -1,6 +1,7 @@
 package com.auto.PageObjectTests;
 
 import com.auto.TestPreconditions;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 import java.util.List;
@@ -8,6 +9,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertTrue;
 
 public class VetTests extends TestPreconditions {
+//    public VetTests(WebDriver driver) {
+//        super(driver);
+//    }
+
     @Test
     public void addVetTest() {
         VeterinariansPage veterinariansPage = goToVetsPage();

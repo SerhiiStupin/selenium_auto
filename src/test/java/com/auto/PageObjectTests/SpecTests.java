@@ -1,6 +1,7 @@
 package com.auto.PageObjectTests;
 
 import com.auto.TestPreconditions;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
@@ -9,6 +10,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SpecTests extends TestPreconditions {
+//    public SpecTests(WebDriver driver) {
+//        super(driver);
+//    }
+
     @Test
     public void pageCheck(){
         goToSpecialtiesPage();

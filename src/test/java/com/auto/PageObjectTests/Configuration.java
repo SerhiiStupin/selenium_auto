@@ -1,122 +1,42 @@
 package com.auto.PageObjectTests;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Configuration {
-    private static WebDriver driver;
-    private static WebDriver chrome;
-    private static WebDriver firefox;
-//    private ChromeDriver chrome;
-//    private FirefoxDriver firefox;
+    private static Configuration instance;
+    private String schema = System.getProperty("schema", "http://");
+    private String host = System.getProperty("host", "139.59.149.247");
+    private String port = System.getProperty("port", "8000");
+    private String baseUrl;
+    private String browser = System.getProperty("browser", "chrome");
 
-    public static WebDriver getDriver() {
-        return driver;
+
+    private Configuration() {
+        init();
     }
-
-    public static WebDriver driver(){
-
-        if (driver == null){
-            //System.setProperty("webdriver.chrome.driver", "WebDriverManager.chromedriver().setup()");
-            driver = new ChromeDriver();
+    public static Configuration getInstance() {
+        if (instance == null) {
+            instance = new Configuration();
         }
-        else if (driver == chrome){
-            driver = new ChromeDriver();
-        }
-        else if (driver == firefox){
-            driver = new FirefoxDriver();
-        }
-        else {
-            driver = new FirefoxDriver();
-        }
-        return driver;
+        return instance;
     }
-//    private static Configuration browser;
-//
-//    private ChromeDriver chrome;
-//    private FirefoxDriver firefox;
-//
-
-//    public ChromeDriver getChrome() {
-//        WebDriverManager.chromedriver().setup();
-//        return chrome;
-//    }
-//
-//    public FirefoxDriver getFirefox() {
-//        return firefox;
-//    }
-//
-//    public static Configuration getBrowser(){
-//        if (browser == null){
-//            browser = new Configuration();
-//        }
-//        return browser;
-//    }
-////    public WebDriver setUpBrowser() {
-////        chrome = new ChromeDriver();
-////    return chrome;
-////    }
-//    public WebDriver setUpBrowser() {
-//        firefox = new FirefoxDriver();
-//        return firefox;
-//    }
-//    public WebDriver browser(){
-//        return setUpBrowser();
-//    }
-}
-
-
-
-
-
-//    public void setUpDriver() {
-//        WebDriverManager.chromedriver().setup();
-//        WebDriverManager.firefoxdriver().setup();
+    //        -DbaseUrl=http://139.59.149.247:8000/petclinic
+    public String baseUrl() {
+        return baseUrl;
+    }
+    private void init() {
+        this.baseUrl = new UrlBuilder()
+                .withSchema(schema)
+                .withHost(host)
+                .withPort(Integer.parseInt(port)).build();
+    }
+//    private BrowserSelect getBrowser() {
+//        //String browser = BrowserSelect.getProperty("browser");
+//        if(browser == null || browser.equals("chrome")) return BrowserSelect.CHROME;
+//        else if(browser.equalsIgnoreCase("firefox")) return BrowserSelect.FIREFOX;
+//        else throw new RuntimeException("Browser Name Key value in Configuration.properties is not matched : " + browser);
 //    }
 
-//    public WebDriver setUpBrowser() {
-//        driver = new ChromeDriver();
-//        return driver;
-//    }
-//    public WebDriver setUpBrowser() {
-//        driver = new FirefoxDriver();
-//        return driver;
-//    }
-//    public WebDriver browser(){
-//        return setUpBrowser();
-//    }
-/*
-    private static Configuration browser;
-    public WebDriver driver;
-    private ChromeDriver chrome;
-    private FirefoxDriver firefox;
-
-    public static Configuration getBrowser(){
-        if (browser == null){
-            browser = new Configuration();
-        }
+    public String getBrowser() {
         return browser;
     }
-//    Configuration() {
-//        initChrome();
-//        initFF();
-//    }
-
-
-    public WebDriver Chrome() {
-    return (WebDriver) chrome;
 }
-    public WebDriver Firefox() {
-        return (WebDriver) firefox;}
-
-    private void initChrome() {
-        this.chrome = new BrowserBuilder()
-                .Chrome(new ChromeDriver());}
-    private void initFF(){
-        this.firefox = new BrowserBuilder()
-                .FF(new FirefoxDriver());
-    }
-
- */

@@ -1,6 +1,7 @@
 package com.auto;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
@@ -11,6 +12,10 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class AddPetsToOwner extends TestPreconditions{
+//    public AddPetsToOwner(WebDriver driver) {
+//        super(driver);
+//    }
+
     @Test
     public void addPetNewType(){
         String name = "Wolf";
