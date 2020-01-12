@@ -17,8 +17,7 @@ public class OwnersPage extends TestPreconditions {
     }
 
     public WebElement addedOwnerSearch() {
-        WebElement newOwner = driver.findElement(By.xpath("//*[text()='John Snow']"));
-        return newOwner;
+        return driver.findElement(By.xpath("//*[text()='John Snow']"));
     }
 
     public OwnersPage openPage() {
@@ -89,5 +88,10 @@ public class OwnersPage extends TestPreconditions {
         WebElement owner = driver.findElement(By.xpath("//a[text()='"+fullName+"']"));
         owner.click();
         return new OwnerInformationPage(driver);
+    }
+    public void newOwner(){
+        WebElement newOwner = driver.findElement(By.xpath("//tr[last()]/td[1]/a"));
+        newOwner.click();
+        //return new OwnerInformationPage(driver);
     }
 }

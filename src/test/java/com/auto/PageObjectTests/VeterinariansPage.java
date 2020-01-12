@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.util.Lists.list;
+
 public class VeterinariansPage{
     private WebDriver driver;
     public VeterinariansPage(WebDriver driver) {
@@ -15,7 +17,7 @@ public class VeterinariansPage{
 
     public List<WebElement> veterinariansList(){
         List<WebElement> list = driver.findElements(By.xpath("//*[@id='vets']/tbody/tr"));
-        return list;
+        return list();
     }
 
     public List<String> getVetsList(){

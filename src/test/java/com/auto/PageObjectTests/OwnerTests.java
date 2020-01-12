@@ -33,7 +33,8 @@ public class OwnerTests extends TestPreconditions {
         newOwnerPage.setAddress(address);
         newOwnerPage.setCity(city);
         newOwnerPage.setTelephone(phone);
-        newOwnerPage.clickAddOwnerButton();
+        ownersPage = newOwnerPage.clickAddOwnerButton();
+        driver.navigate().refresh();
         List<WebElement> after = ownersPage.ownersList();
         assertThat(before.size()+1).isEqualTo(after.size());
     }

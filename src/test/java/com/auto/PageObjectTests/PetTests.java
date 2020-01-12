@@ -51,6 +51,7 @@ public class PetTests extends TestPreconditions {
         List<WebElement> afterAdding = petTypePage.petsList();
         assertThat(before.size()+1).isEqualTo(afterAdding.size());
         petTypePage.deleteLast();
+        driver.navigate().refresh();
         List<WebElement> afterDeleting = petTypePage.petsList();
         assertThat(before.size()).isEqualTo(afterDeleting.size());
     }

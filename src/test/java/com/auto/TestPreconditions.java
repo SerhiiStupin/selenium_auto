@@ -28,6 +28,10 @@ public class TestPreconditions {
         //driver = WebDriverFactory.getDriver();
         driver = DriverManager.getManager(DriverType.CHROME);
     }
+    @AfterMethod
+    public void  tearDown(){
+        driver.quit();
+    }
 
         protected void goToHomePage() {
         goToUrl(DEFAULT_URL + "/welcome", "Welcome");
@@ -38,7 +42,7 @@ public class TestPreconditions {
 
     protected VeterinariansPage goToVetsPage() {
         goToUrl(DEFAULT_URL + "/vets", "Veterinarians");
-        return null;
+        return new VeterinariansPage(driver);
     }
 
     protected void goToPetTypesPage() {

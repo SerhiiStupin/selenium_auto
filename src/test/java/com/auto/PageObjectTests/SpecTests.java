@@ -27,6 +27,7 @@ public class SpecTests extends TestPreconditions {
         specPage.addBtn();
         specPage.setName(spec);
         specPage.saveBtn();
+        driver.navigate().refresh();
         assertThat(specPage.specList()).isEqualTo(spec);
     }
     @Test
@@ -48,10 +49,12 @@ public class SpecTests extends TestPreconditions {
         specPage.addBtn();
         specPage.setName(spec);
         specPage.saveBtn();
+        driver.navigate().refresh();
         assertThat(specPage.specList()).isEqualTo(spec);
         List<WebElement> afterAdding = specPage.specialists();
         assertThat(before.size()+1).isEqualTo(afterAdding.size());
         specPage.deleteLast();
+        driver.navigate().refresh();
         List<WebElement> afterDeleting = specPage.specialists();
         assertThat(before.size()).isEqualTo(afterDeleting.size());
     }

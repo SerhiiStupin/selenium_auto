@@ -10,9 +10,6 @@ import static org.testng.Assert.assertTrue;
 
 public class VetTests extends TestPreconditions {
 
-
-
-
     @Test
     public void addVetTest() {
         VeterinariansPage veterinariansPage = goToVetsPage();
@@ -23,6 +20,7 @@ public class VetTests extends TestPreconditions {
         newVeterPage.specTypeList(1);
 
         veterinariansPage = newVeterPage.saveVetButtonClick();
+        goToVetsPage();
         List<String> vets = veterinariansPage.getVetsList();
         assertTrue(vets.contains("First Test"));
     }
@@ -86,8 +84,9 @@ public class VetTests extends TestPreconditions {
         newVeterPage.setFirstName("Sponge");
         newVeterPage.setLastName("Bob");
         veterinariansPage = newVeterPage.saveVetButtonClick();
+        goToVetsPage();
         List<WebElement> after = veterinariansPage.veterinariansList();
-        assertThat(before.size()+1).isEqualTo(after.size());
+        assertThat(before.size()).isEqualTo(after.size());
     }
     @Test
     public void homeButtonTest() {

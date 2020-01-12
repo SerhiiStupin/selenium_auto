@@ -25,7 +25,7 @@ public class PetsAndVisitPageComponent {
     }
     public void nameField(String name){
         WebElement nameField = driver.findElement(By.xpath(nameIdLocator));
-        nameField.sendKeys();
+        nameField.sendKeys(name);
     }
     public void calendarClick(){
         WebElement calendar = driver.findElement(By.xpath("//*[@class='mat-datepicker-toggle-default-icon']"));
@@ -36,7 +36,7 @@ public class PetsAndVisitPageComponent {
         next.click();
     }
     public void dateSelect(){
-        WebElement date = driver.findElement(By.xpath("//*[@class='mat-calendar-body-cell-content'][text()='31']"));
+        WebElement date = driver.findElement(By.xpath("//*[@class='mat-calendar-body-cell-content'][text()='18']"));
         date.click();
     }
     public void dropDownOpen(){
@@ -55,15 +55,15 @@ public class PetsAndVisitPageComponent {
         return driver.findElement(By.xpath("//dl/dd[1]")).getText();
     }
     public String petAddingCheck(){
-        String petAddingCheck = driver.findElement(By.xpath("//tr[11]/td[last()]/tr[1]")).getText();
-        return petAddingCheck;
+        return driver.findElement(By.xpath("//tr[last()]/td[last()]/tr[1]")).getText();
     }
     public String pageTitle(){
         return driver.findElement(By.xpath("//h2")).getText();
     }
-    public String birthDate(){
-        String birthDate = driver.findElement(By.xpath("//*[@name='birthDate']")).getText();
-        return birthDate;
+
+    public void birthDate(){
+        WebElement birthDate = driver.findElement(By.xpath("//*[@name='birthDate']"));
+
     }
    // WebElement birthDate = driver.findElement(By.xpath("//*[@name='birthDate']"));
 
