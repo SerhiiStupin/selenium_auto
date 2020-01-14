@@ -1,5 +1,6 @@
-package com.auto.APITests;
+package com.auto.APITests.Delete;
 
+import com.auto.APITests.Owner.NewApiOwner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
@@ -27,7 +28,7 @@ public class OwnerPreCond {
     }
         @AfterMethod
     public void deleteOwner() {
-       ownerDelete(newApiOwner.getId());
+       ownerDelete(Integer.parseInt(newApiOwner.getId()));
     }
     @Test
     public void getOwnerIdTest() {
