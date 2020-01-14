@@ -15,7 +15,7 @@ public class OwnerPreCond {
     NewApiOwner newApiOwner = new NewApiOwner();
     @BeforeMethod
     public void ownerCreate(){
-        ownerCreationTest();
+        newApiOwner = ownerCreationTest();
     }
     @BeforeClass
     public void setUp() {
@@ -30,7 +30,17 @@ public class OwnerPreCond {
        ownerDelete(newApiOwner.getId());
     }
     @Test
-    public void ownerCreationTest() {
+    public void getOwnerIdTest() {
+        //int ownerId = 14;
+        RestAssured.given()
+                .get("/owners/{id}", newApiOwner.getId())
+                .then()
+                .statusCode(200)
+                .body("id", equalTo(newApiOwner.getId()))
+                //.body("name", equalTo(owner.getFirstName()))
+                .log().all();
+    }
+    private NewApiOwner ownerCreationTest() {
         //double random = Math.random();
         NewApiOwner newApiOwner = new NewApiOwner();
         newApiOwner.setId(0);
@@ -39,8 +49,7 @@ public class OwnerPreCond {
         newApiOwner.setCity("LA");
         newApiOwner.setAddress("Street");
         newApiOwner.setTelephone("1234567890");
-        //return
-        RestAssured.given()
+        return RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(newApiOwner)
                 .post("/owners")
@@ -76,19 +85,6 @@ public class OwnerPreCond {
 //                .as(NewApiOwner.class);
 //    }
 
-
-        @Test
-    public void getOwnerIdTest() {
-        //int ownerId = 14;
-        RestAssured.given()
-                .get("/owners/{id}", newApiOwner.getId())
-                .then()
-                .statusCode(200)
-                .body("id", equalTo(newApiOwner.getId()))
-                //.body("name", equalTo(owner.getFirstName()))
-                .log().all();
-    }
-    @Test
     public void ownerDelete(int ownerId){
         //ownerId = newApiOwner.getId();
         RestAssured.given()
