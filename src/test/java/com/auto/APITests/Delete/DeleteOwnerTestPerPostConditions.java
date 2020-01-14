@@ -1,4 +1,4 @@
-package com.auto.APITests;
+package com.auto.APITests.Delete;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class OwnerTestPerPostConditions {
+public class DeleteOwnerTestPerPostConditions {
     private ApiOwner apiOwner;
 //    @BeforeMethod
 //    public void createOwner() {

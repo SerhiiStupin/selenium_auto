@@ -1,9 +1,9 @@
-package com.auto.APITests;
+package com.auto.APITests.Delete;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Type {
+public class DeleteType {
 
     @SerializedName("id")
     @Expose

@@ -1,5 +1,6 @@
-package com.auto.APITests;
+package com.auto.APITests.Delete;
 
+import com.auto.APITests.Owner.NewApiOwner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
@@ -7,7 +8,7 @@ import org.testng.annotations.Test;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class QWERTYUIO {
+public class DeleteQWERTYUIO {
     @Test
     public NewApiOwner ownerCreationTest() {
         //double random = Math.random();

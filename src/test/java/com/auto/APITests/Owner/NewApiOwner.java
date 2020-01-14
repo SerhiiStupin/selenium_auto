@@ -1,4 +1,4 @@
-package com.auto.APITests;
+package com.auto.APITests.Owner;
 
 import com.auto.PageObjectTests.Pet;
 import com.fasterxml.jackson.annotation.*;
@@ -66,8 +66,8 @@ public class NewApiOwner {
         }
 
         @JsonProperty("id")
-        public Integer getId() {
-            return id;
+        public String getId() {
+            return String.valueOf(id);
         }
 
         @JsonProperty("id")

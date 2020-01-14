@@ -1,4 +1,4 @@
-package com.auto.APITests;
+package com.auto.APITests.Delete;
 
 import com.auto.PageObjectTests.Owner;
 import com.auto.PageObjectTests.Pet;

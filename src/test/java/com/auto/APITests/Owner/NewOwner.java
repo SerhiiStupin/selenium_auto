@@ -1,4 +1,4 @@
-package com.auto.APITests;
+package com.auto.APITests.Owner;
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.HashMap;

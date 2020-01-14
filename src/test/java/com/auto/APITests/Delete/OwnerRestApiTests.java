@@ -1,4 +1,4 @@
-package com.auto.APITests;
+package com.auto.APITests.Delete;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
