@@ -1,6 +1,5 @@
 package com.auto.PageObjectTests;
 
-import com.sun.xml.internal.org.jvnet.staxex.Base64Data;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;

@@ -2,14 +2,24 @@ package com.auto.APITests;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.parsing.Parser;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class QWERTYUIO {
+    @BeforeClass
+    public void setUp() {
+        //RestAssured.baseURI = "http://localhost";
+        RestAssured.baseURI = "http://139.59.149.247/";
+        RestAssured.port = 9966;
+        RestAssured.basePath = "/petclinic/api";
+        RestAssured.defaultParser = Parser.JSON;
+    }
     @Test
-    public NewApiOwner ownerCreationTest() {
+    public void ownerCreationTest() {
         //double random = Math.random();
         NewApiOwner apiOwner = new NewApiOwner();
         apiOwner.setId(1000);
@@ -18,7 +28,8 @@ public class QWERTYUIO {
         apiOwner.setCity("LA");
         apiOwner.setAddress("Street");
         apiOwner.setTelephone("1234567890");
-        return RestAssured.given()
+        //return
+                RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(apiOwner)
                 .post("/owners")

@@ -19,7 +19,8 @@ public class OwnerRestApiTests {
 //    }
     @BeforeClass
     public void setUp() {
-        RestAssured.baseURI = "http://localhost";
+        //RestAssured.baseURI = "http://localhost";
+        RestAssured.baseURI = "http://139.59.149.247/";
         RestAssured.port = 9966;
         RestAssured.basePath = "/petclinic/api";
         RestAssured.defaultParser = Parser.JSON;
@@ -44,7 +45,7 @@ public class OwnerRestApiTests {
     @Test
     public void createOwner(){
         ApiOwner apiOwner = new ApiOwner();
-        apiOwner.setId(8000000);
+        apiOwner.setId(8000);
         apiOwner.setFirstName("Termi");
         apiOwner.setLastName("Nator");
         apiOwner.setCity("LA");
