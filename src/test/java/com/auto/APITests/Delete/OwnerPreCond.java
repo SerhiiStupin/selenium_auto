@@ -1,6 +1,6 @@
 package com.auto.APITests.Delete;
 
-import com.auto.APITests.Owner.NewApiOwner;
+import com.auto.APITests.Owner.Owner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
@@ -13,54 +13,54 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class OwnerPreCond {
-    NewApiOwner newApiOwner = new NewApiOwner();
+    Owner owner = new Owner();
     @BeforeMethod
     public void ownerCreate(){
-        newApiOwner = ownerCreationTest();
+        owner = ownerCreationTest();
     }
     @BeforeClass
     public void setUp() {
-        //RestAssured.baseURI = "http://localhost";
-        RestAssured.baseURI = "http://139.59.149.247/";
+        RestAssured.baseURI = "http://localhost";
+        //RestAssured.baseURI = "http://139.59.149.247/";
         RestAssured.port = 9966;
         RestAssured.basePath = "/petclinic/api";
         RestAssured.defaultParser = Parser.JSON;
     }
         @AfterMethod
     public void deleteOwner() {
-       ownerDelete(Integer.parseInt(newApiOwner.getId()));
+       ownerDelete(Integer.parseInt(owner.getId()));
     }
     @Test
     public void getOwnerIdTest() {
         //int ownerId = 14;
         RestAssured.given()
-                .get("/owners/{id}", newApiOwner.getId())
+                .get("/owners/{id}", owner.getId())
                 .then()
                 .statusCode(200)
-                .body("id", equalTo(newApiOwner.getId()))
+                .body("id", equalTo(owner.getId()))
                 //.body("name", equalTo(owner.getFirstName()))
                 .log().all();
     }
-    private NewApiOwner ownerCreationTest() {
+    private Owner ownerCreationTest() {
         //double random = Math.random();
-        NewApiOwner newApiOwner = new NewApiOwner();
-        newApiOwner.setId(0);
-        newApiOwner.setFirstName("Tester");
-        newApiOwner.setLastName("User");
-        newApiOwner.setCity("LA");
-        newApiOwner.setAddress("Street");
-        newApiOwner.setTelephone("1234567890");
+        Owner owner = new Owner();
+        owner.setId(0);
+        owner.setFirstName("Tester");
+        owner.setLastName("User");
+        owner.setCity("LA");
+        owner.setAddress("Street");
+        owner.setTelephone("1234567890");
         return RestAssured.given()
                 .contentType(ContentType.JSON)
-                .body(newApiOwner)
+                .body(owner)
                 .post("/owners")
                 .then()
                 .log().all()
                 .statusCode(201)
                 .body("id", notNullValue())
-                .body("firstName", equalTo(newApiOwner.getFirstName()))
+                .body("firstName", equalTo(owner.getFirstName()))
                 .extract().body()
-                .as(NewApiOwner.class);
+                .as(Owner.class);
     }
 
 //    @Test

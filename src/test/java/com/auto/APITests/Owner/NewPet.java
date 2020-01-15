@@ -22,7 +22,7 @@ public class NewPet {
         @JsonProperty("name")
         private String name;
         @JsonProperty("owner")
-        private NewOwner owner;
+        private Owner owner;
         @JsonProperty("type")
         private NewType type;
         @JsonProperty("visits")
@@ -61,12 +61,12 @@ public class NewPet {
         }
 
         @JsonProperty("owner")
-        public NewOwner getOwner() {
+        public Owner getOwner() {
             return owner;
         }
 
         @JsonProperty("owner")
-        public void setOwner(NewOwner owner) {
+        public void setOwner(Owner owner) {
             this.owner = owner;
         }
 
@@ -101,4 +101,6 @@ public class NewPet {
             this.additionalProperties.put(name, value);
         }
 
+    public void setVisits(String date, String description, String id, String pet) {
+    }
 }

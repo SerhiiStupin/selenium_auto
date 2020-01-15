@@ -17,7 +17,7 @@ import java.util.Map;
         "pets",
         "telephone"
 })
-public class NewApiOwner {
+public class Owner {
         @JsonProperty("address")
         private String address;
         @JsonProperty("city")

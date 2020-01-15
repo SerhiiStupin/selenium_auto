@@ -1,6 +1,6 @@
 package com.auto.APITests.Delete;
 
-import com.auto.APITests.Owner.NewApiOwner;
+import com.auto.APITests.Owner.Owner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class OwnerTests {
-    NewApiOwner newApiOwner;
+    Owner owner;
     @BeforeClass
     public void setUp() {
         RestAssured.baseURI = "http://localhost";
@@ -22,15 +22,15 @@ public class OwnerTests {
     }
     @BeforeMethod
     public void createOwner() {
-        newApiOwner = createOwnerforUpdate();
+        owner = createOwnerforUpdate();
     }
     @Test
     public void ownerUpdate(){
 
         RestAssured.given()
                 .contentType(ContentType.JSON)
-                .body(newApiOwner)
-                .put("/owners/{id}", newApiOwner.getId())
+                .body(owner)
+                .put("/owners/{id}", owner.getId())
                 .then()
                 .statusCode(204)
                 //.body("id", equalTo(newApiOwner.getId()))
@@ -52,8 +52,8 @@ public class OwnerTests {
 ////                .body("id", equalTo(Integer.parseInt(newApiOwner.getId())))
 //                .log().all();
     }
-    private NewApiOwner createOwnerforUpdate() {
-        NewApiOwner apiOwner = new NewApiOwner();
+    private Owner createOwnerforUpdate() {
+        Owner apiOwner = new Owner();
         apiOwner.setId(0);
         apiOwner.setFirstName("Test");
         apiOwner.setLastName("User");
@@ -70,7 +70,7 @@ public class OwnerTests {
                 .body("id", notNullValue())
                 .body("firstName", equalTo(apiOwner.getFirstName()))
                 .extract().body()
-                .as(NewApiOwner.class);
+                .as(Owner.class);
     }
 //    private void ownerDelete2(String ownerId){
 //        RestAssured.given()

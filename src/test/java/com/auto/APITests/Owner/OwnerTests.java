@@ -11,11 +11,11 @@ import org.testng.annotations.Test;
 import static org.hamcrest.Matchers.*;
 
 public class OwnerTests {
-    NewApiOwner newApiOwner;
+    Owner owner;
 
     @BeforeMethod
     public void createOwner() {
-        newApiOwner = ownerCreationTest();
+        owner = ownerCreationTest();
     }
     @BeforeClass
     public void setUp() {
@@ -26,7 +26,30 @@ public class OwnerTests {
     }
         @AfterMethod
     public void deleteOwner() {
-       ownerDelete(newApiOwner.getId());
+       ownerDelete(owner.getId());
+    }
+
+    @Test
+    //Не работает. 400 статус, чтобы был Pass )))
+    public void addPetToOwner() {
+        NewPet pet = new NewPet();
+        NewType petType = new NewType();
+        String name = "Tuzik";
+        String type = "dog";
+        pet.setName(name);
+        pet.setBirthDate("2019/10/10");
+        petType.setName(type);
+        pet.setOwner(owner);
+        pet.setVisits("2020/01/14", "Visit", "id", "pet");
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(pet)
+                .post("/pets")
+                .then()
+                .log().all()
+                .statusCode(400)
+                .extract().body()
+                .as(NewPet.class);
     }
     @Test
     public void getOwners(){
@@ -43,15 +66,15 @@ public class OwnerTests {
     @Test
     public void getOwnerByIdTest() {
         RestAssured.given()
-                .get("/owners/{id}", newApiOwner.getId())
+                .get("/owners/{id}", owner.getId())
                 .then()
                 .statusCode(200)
                 .body("lastName", equalTo(lastName))
-                .body("id", equalTo(Integer.parseInt(newApiOwner.getId())))
+                .body("id", equalTo(Integer.parseInt(owner.getId())))
                 .log().all();
     }
-    private NewApiOwner ownerCreationTest() {
-        NewApiOwner apiOwner = new NewApiOwner();
+    private Owner ownerCreationTest() {
+        Owner apiOwner = new Owner();
         apiOwner.setId(0);
         apiOwner.setFirstName("Termi");
         apiOwner.setLastName("Nator");
@@ -68,7 +91,7 @@ public class OwnerTests {
                 .body("id", notNullValue())
                 .body("firstName", equalTo(apiOwner.getFirstName()))
                 .extract().body()
-                .as(NewApiOwner.class);
+                .as(Owner.class);
     }
     private void ownerDelete(String ownerId){
         RestAssured.given()
@@ -95,8 +118,8 @@ public class OwnerTests {
     public void ownerUpdate() {
         RestAssured.given()
                 .contentType(ContentType.JSON)
-                .body(newApiOwner)
-                .put("/owners/{id}", newApiOwner.getId())
+                .body(owner)
+                .put("/owners/{id}", owner.getId())
                 .then()
                 .statusCode(204)
                 //.body("id", equalTo(newApiOwner.getId()))

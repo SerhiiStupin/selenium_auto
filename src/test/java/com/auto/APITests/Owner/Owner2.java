@@ -8,7 +8,7 @@ import java.util.Map;
 @JsonPropertyOrder({
 
 })
-public class NewOwner {
+public class Owner2 {
         @JsonIgnore
         private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

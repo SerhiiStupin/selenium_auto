@@ -52,11 +52,11 @@ public class SpecialtyTests {
 
 
         private Specialty specCreation() {
-            Specialty bizon = new Specialty();
-            bizon.setName("bizzone");
+            Specialty lor = new Specialty();
+            lor.setName("lor");
             return RestAssured.given()
                     .contentType(ContentType.JSON)
-                    .body(bizon)
+                    .body(lor)
                     .post("/specialties")
                     .then()
                     .statusCode(201)
