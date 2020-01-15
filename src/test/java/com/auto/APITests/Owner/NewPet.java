@@ -1,5 +1,4 @@
 package com.auto.APITests.Owner;
-import com.auto.APITests.Delete.DeleteType;
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.HashMap;
@@ -25,7 +24,7 @@ public class NewPet {
         @JsonProperty("owner")
         private NewOwner owner;
         @JsonProperty("type")
-        private DeleteType type;
+        private NewType type;
         @JsonProperty("visits")
         private List<NewVisit> visits = null;
         @JsonIgnore
@@ -72,13 +71,14 @@ public class NewPet {
         }
 
         @JsonProperty("type")
-        public DeleteType getType() {
+        public NewType getType() {
             return type;
         }
 
         @JsonProperty("type")
-        public void setType(DeleteType type) {
+        public void setType(NewType type) {
             this.type = type;
+            //return null;
         }
 
         @JsonProperty("visits")
@@ -101,4 +101,4 @@ public class NewPet {
             this.additionalProperties.put(name, value);
         }
 
-    }
+}

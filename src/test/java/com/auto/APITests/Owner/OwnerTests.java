@@ -102,6 +102,9 @@ public class OwnerTests {
                 //.body("id", equalTo(newApiOwner.getId()))
                 .log().all();
     }
+
+
+
 //    @Test
 //    public void ownerUpdate(){
 //        RestAssured.given()
