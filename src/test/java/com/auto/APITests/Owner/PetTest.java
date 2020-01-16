@@ -27,7 +27,6 @@ public class PetTest {
 //    }
     @Test
     public void petGetTest() {
-        NewPet pet = new NewPet();
         RestAssured.given()
                 .given()
                 .get("/pets")
