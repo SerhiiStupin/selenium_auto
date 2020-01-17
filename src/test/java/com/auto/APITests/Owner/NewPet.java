@@ -91,16 +91,6 @@ public class NewPet {
             this.visits = visits;
         }
 
-        @JsonAnyGetter
-        public Map<String, Object> getAdditionalProperties() {
-            return this.additionalProperties;
-        }
-
-        @JsonAnySetter
-        public void setAdditionalProperty(String name, Object value) {
-            this.additionalProperties.put(name, value);
-        }
-
     public void setVisits(String date, String description, String id, String pet) {
     }
 }

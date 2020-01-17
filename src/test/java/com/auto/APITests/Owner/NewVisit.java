@@ -12,9 +12,6 @@ import java.util.Map;
         "pet"
 })
 public class NewVisit {
-
-    public class Visit {
-
         @JsonProperty("date")
         private String date;
         @JsonProperty("description")
@@ -22,7 +19,7 @@ public class NewVisit {
         @JsonProperty("id")
         private Integer id;
         @JsonProperty("pet")
-        private Pet_ pet;
+        private NewPet pet;
         @JsonIgnore
         private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -57,23 +54,13 @@ public class NewVisit {
         }
 
         @JsonProperty("pet")
-        public Pet_ getPet() {
+        public NewPet getPet() {
             return pet;
         }
 
         @JsonProperty("pet")
-        public void setPet(Pet_ pet) {
+        public void setPet(NewPet pet) {
             this.pet = pet;
         }
 
-        @JsonAnyGetter
-        public Map<String, Object> getAdditionalProperties() {
-            return this.additionalProperties;
-        }
-
-        @JsonAnySetter
-        public void setAdditionalProperty(String name, Object value) {
-            this.additionalProperties.put(name, value);
-        }
     }
-}

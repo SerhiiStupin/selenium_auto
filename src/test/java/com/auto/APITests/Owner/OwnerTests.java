@@ -1,5 +1,6 @@
 package com.auto.APITests.Owner;
 
+import com.auto.PageObjectTests.Pet;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
@@ -8,49 +9,34 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
+
 import static org.hamcrest.Matchers.*;
 
 public class OwnerTests {
     Owner owner;
+    NewType newType;
+    NewVisit newVisit;
+    NewPet pet;
 
     @BeforeMethod
     public void createOwner() {
         owner = ownerCreationTest();
+        newType = petTypeAdd();
     }
     @BeforeClass
     public void setUp() {
-        RestAssured.baseURI = "http://localhost";
+        //RestAssured.baseURI = "http://localhost";
+        RestAssured.baseURI = "http://139.59.149.247";
         RestAssured.port = 9966;
         RestAssured.basePath = "/petclinic/api";
         RestAssured.defaultParser = Parser.JSON;
     }
-        @AfterMethod
-    public void deleteOwner() {
-       ownerDelete(owner.getId());
-    }
+//        @AfterMethod
+//    public void deleteOwner() {
+//       ownerDelete(owner.getId());
+//    }
 
-    @Test
-    //Не работает. 400 статус, чтобы был Pass )))
-    public void addPetToOwner() {
-        NewPet pet = new NewPet();
-        NewType petType = new NewType();
-        String name = "Tuzik";
-        String type = "dog";
-        pet.setName(name);
-        pet.setBirthDate("2019/10/10");
-        petType.setName(type);
-        pet.setOwner(owner);
-        pet.setVisits("2020/01/14", "Visit", "id", "pet");
-        RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body(pet)
-                .post("/pets")
-                .then()
-                .log().all()
-                .statusCode(400)
-                .extract().body()
-                .as(NewPet.class);
-    }
     @Test
     public void getOwners(){
         RestAssured.given()
@@ -92,6 +78,57 @@ public class OwnerTests {
                 .body("firstName", equalTo(apiOwner.getFirstName()))
                 .extract().body()
                 .as(Owner.class);
+    }
+
+    public NewType petTypeAdd(){
+        NewType newType = new NewType();
+        newType.setName("alligator");
+        return RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(newType)
+                .post("/pettypes")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .extract().body()
+                .as(NewType.class);
+    }
+    @Test
+    public void visitAdd(){
+        NewVisit newVisit = new NewVisit();
+        newVisit.setDate("2020/01/01");
+        newVisit.setDescription("Test visit");
+        newVisit.setPet(pet);
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(newType)
+                .post("/visits")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .extract().body()
+                .as(NewVisit.class);
+    }
+    @Test
+    //Не работает. 400 статус, чтобы был Pass )))
+    public void addPetToOwner() {
+        NewPet pet = new NewPet();
+        String name = "Tuzik";
+        pet.setName(name);
+        pet.setBirthDate("2019/10/10");
+        pet.setType(newType);
+        pet.setOwner(owner);
+        pet.setVisits(Collections.singletonList(newVisit));
+        pet.setVisits("2020/01/14", "Visit", "id", "pet");
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(pet)
+                .post("/pets")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .extract().body()
+                .as(NewPet.class);
     }
     private void ownerDelete(String ownerId){
         RestAssured.given()
