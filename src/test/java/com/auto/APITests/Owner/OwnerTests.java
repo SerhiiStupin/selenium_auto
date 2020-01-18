@@ -8,18 +8,24 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
+
 import static org.hamcrest.Matchers.*;
 
 public class OwnerTests {
     Owner owner;
+    Type type;
+    Visit visit;
+    Pet pet;
 
     @BeforeMethod
     public void createOwner() {
-        owner = ownerCreationTest();
+        ownerCreationTest();
     }
     @BeforeClass
     public void setUp() {
         RestAssured.baseURI = "http://localhost";
+        //RestAssured.baseURI = "http://139.59.149.247";
         RestAssured.port = 9966;
         RestAssured.basePath = "/petclinic/api";
         RestAssured.defaultParser = Parser.JSON;
@@ -29,28 +35,6 @@ public class OwnerTests {
        ownerDelete(owner.getId());
     }
 
-    @Test
-    //Не работает. 400 статус, чтобы был Pass )))
-    public void addPetToOwner() {
-        NewPet pet = new NewPet();
-        NewType petType = new NewType();
-        String name = "Tuzik";
-        String type = "dog";
-        pet.setName(name);
-        pet.setBirthDate("2019/10/10");
-        petType.setName(type);
-        pet.setOwner(owner);
-        pet.setVisits("2020/01/14", "Visit", "id", "pet");
-        RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body(pet)
-                .post("/pets")
-                .then()
-                .log().all()
-                .statusCode(400)
-                .extract().body()
-                .as(NewPet.class);
-    }
     @Test
     public void getOwners(){
         RestAssured.given()
@@ -73,25 +57,76 @@ public class OwnerTests {
                 .body("id", equalTo(Integer.parseInt(owner.getId())))
                 .log().all();
     }
-    private Owner ownerCreationTest() {
-        Owner apiOwner = new Owner();
-        apiOwner.setId(0);
-        apiOwner.setFirstName("Termi");
-        apiOwner.setLastName("Nator");
-        apiOwner.setCity("LA");
-        apiOwner.setAddress("Street");
-        apiOwner.setTelephone("1234567890");
-        return RestAssured.given()
+    @Test
+    public void ownerCreationTest() {
+        owner = new Owner();
+        owner.setId(0);
+        owner.setFirstName("Termi");
+        owner.setLastName("Nator");
+        owner.setCity("LA");
+        owner.setAddress("Street");
+        owner.setTelephone("1234567890");
+        owner =  RestAssured.given()
                 .contentType(ContentType.JSON)
-                .body(apiOwner)
+                .body(owner)
                 .post("/owners")
                 .then()
                 .log().all()
                 .statusCode(201)
                 .body("id", notNullValue())
-                .body("firstName", equalTo(apiOwner.getFirstName()))
+                .body("firstName", equalTo(owner.getFirstName()))
                 .extract().body()
                 .as(Owner.class);
+    }
+    @Test
+    public void petTypeAdd(){
+        type = new Type();
+        type.setName("alligator");
+        type =  RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(type)
+                .post("/pettypes")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .extract().body()
+                .as(Type.class);
+    }
+    @Test
+    public void visitAdd(){
+        visit = new Visit();
+        visit.setDate("2020/01/01");
+        visit.setDescription("Test visit");
+        visit.setPet(pet);
+        visit = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(type)
+                .post("/visits")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .extract().body()
+                .as(Visit.class);
+    }
+    @Test
+    public void addPetToOwner() {
+        pet = new Pet();
+        String name = "Tuzik";
+        pet.setName(name);
+        pet.setBirthDate("2019/10/10");
+        pet.setType(type);
+        pet.setOwner(owner);
+        pet.setVisits(Collections.singletonList(visit));
+        //pet.setVisits("2020/01/14", "Visit", "id", "pet");
+        pet = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(pet)
+                .post("/pets")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .extract().body()
+                .as(Pet.class);
     }
     private void ownerDelete(String ownerId){
         RestAssured.given()

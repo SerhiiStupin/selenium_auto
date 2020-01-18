@@ -1,11 +1,10 @@
-package com.auto.APITests.Vets;
+package com.auto.APITests.Owner;
 
-import com.auto.APITests.Specialty.Specialty;
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -24,8 +23,6 @@ public class Vets {
     private String lastName;
     @JsonProperty("specialties")
     private List<Specialty> specialties = null;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("firstName")
     public String getFirstName() {
@@ -67,14 +64,13 @@ public class Vets {
         this.specialties = specialties;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @Override
+    public String toString() {
+        return "Vets{" +
+                "firstName='" + firstName + '\'' +
+                ", id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", specialties=" + specialties +
+                '}';
     }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
 }

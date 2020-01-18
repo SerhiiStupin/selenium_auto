@@ -1,6 +1,5 @@
-package com.auto.APITests.Vets;
+package com.auto.APITests.Owner;
 
-import com.auto.APITests.Specialty.Specialty;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.testng.annotations.AfterMethod;
@@ -13,7 +12,8 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 
-public class VetTests {
+public class VetsTests {
+    String lastName = "Bolit";
     Vets vets = new Vets();
     @BeforeClass
     public void setUp() {
@@ -43,6 +43,14 @@ public class VetTests {
                 .log().all();
     }
     @Test
+    public void getVetsError(){
+        RestAssured.given()
+                .get("/vetss")
+                .then()
+                .statusCode(404)
+                .log().all();
+    }
+    @Test
     public void getVetByIdTest() {
         RestAssured.given()
                 .get("/vets/{id}", vets.getId())
@@ -50,6 +58,14 @@ public class VetTests {
                 .statusCode(200)
                 .body("lastName", equalTo(lastName))
                 .body("id", equalTo(vets.getId()))
+                .log().all();
+    }
+    @Test
+    public void getVetByIdTest404() {
+        RestAssured.given()
+                .get("/vets/{id}", 0.5)
+                .then()
+                .statusCode(400)
                 .log().all();
     }
     private Vets vetCreation() {
@@ -94,5 +110,40 @@ public class VetTests {
                 .statusCode(204)
                 .log().all();
     }
-    String lastName = "Bolit";
+    @Test
+    public void vetCreationError() {
+        Vets vets = new Vets();
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(vets)
+                .post("/vets")
+                .then()
+                .log().all()
+                .statusCode(400);
+    }
+    @Test
+    public void vetDeleteError(){
+        RestAssured.given()
+                .log().all()
+                .delete("/vets/{id}", 404)
+                .then()
+                .statusCode(404);
+    }
+    @Test
+    private void vetUpdateError() {
+        int id = 628;
+        Vets vets = new Vets();
+        List<Specialty> spec = new ArrayList<>();
+        vets.setFirstName("qwertyuio");
+        vets.setLastName(lastName);
+        vets.setSpecialties(spec);
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(vets)
+                .put("/vets/{id}", id)
+                .then()
+                .log().all()
+                .statusCode(404)
+                .log().all();
+    }
 }
