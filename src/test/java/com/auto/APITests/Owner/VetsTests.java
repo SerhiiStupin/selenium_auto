@@ -3,7 +3,6 @@ package com.auto.APITests.Owner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -12,15 +11,9 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 
-public class VetsTests {
+public class VetsTests extends ApiTestPreconditions{
     String lastName = "Bolit";
     Vets vets = new Vets();
-    @BeforeClass
-    public void setUp() {
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = 9966;
-        RestAssured.basePath = "/petclinic/api";
-    }
 
     @BeforeMethod
     public void createSpec() {

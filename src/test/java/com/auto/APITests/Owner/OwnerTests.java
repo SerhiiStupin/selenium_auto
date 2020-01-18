@@ -2,36 +2,22 @@ package com.auto.APITests.Owner;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.parsing.Parser;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
-
 import static org.hamcrest.Matchers.*;
 
-public class OwnerTests {
+public class OwnerTests extends ApiTestPreconditions {
     String lastName = "Nator";
     Owner owner;
     Type type;
-    Visit visit;
-    Pet pet;
 
     @BeforeMethod
     public void createOwner() {
         ownerCreationTest();
     }
-    @BeforeClass
-    public void setUp() {
-        RestAssured.baseURI = "http://localhost";
-        //RestAssured.baseURI = "http://139.59.149.247";
-        RestAssured.port = 9966;
-        RestAssured.basePath = "/petclinic/api";
-        RestAssured.defaultParser = Parser.JSON;
-    }
-        @AfterMethod
+    @AfterClass
     public void deleteOwner() {
        ownerDelete(owner.getId());
     }
@@ -49,6 +35,14 @@ public class OwnerTests {
                 .log().all();
     }
     @Test
+    public void getOwnersError(){
+        RestAssured.given()
+                .get("/owner")
+                .then()
+                .statusCode(404)
+                .log().all();
+    }
+    @Test
     public void getOwnerByIdTest() {
         RestAssured.given()
                 .get("/owners/{id}", owner.getId())
@@ -56,6 +50,14 @@ public class OwnerTests {
                 .statusCode(200)
                 .body("lastName", equalTo(lastName))
                 .body("id", equalTo(Integer.parseInt(owner.getId())))
+                .log().all();
+    }
+    @Test
+    public void getOwnerByIdTestError() {
+        RestAssured.given()
+                .get("/owners/{id}", 404)
+                .then()
+                .statusCode(404)
                 .log().all();
     }
     @Test
@@ -80,6 +82,17 @@ public class OwnerTests {
                 .as(Owner.class);
     }
     @Test
+    public void ownerCreationTestError() {
+        owner = new Owner();;
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(owner)
+                .post("/owners")
+                .then()
+                .log().all()
+                .statusCode(400);
+    }
+    @Test
     public void petTypeAdd(){
         type = new Type();
         type.setName("alligator");
@@ -94,47 +107,31 @@ public class OwnerTests {
                 .as(Type.class);
     }
     @Test
-    public void visitAdd(){
-        visit = new Visit();
-        visit.setDate("2020/01/01");
-        visit.setDescription("Test visit");
-        visit.setPet(pet);
-        visit = RestAssured.given()
+    public void petTypeAddError(){
+        type = new Type();
+        RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(type)
-                .post("/visits")
+                .post("/pettypes")
                 .then()
                 .log().all()
-                .statusCode(201)
-                .extract().body()
-                .as(Visit.class);
+                .statusCode(400);
     }
-    @Test
-    public void addPetToOwner() {
-        pet = new Pet();
-        String name = "Tuzik";
-        pet.setName(name);
-        pet.setBirthDate("2019/10/10");
-        pet.setType(type);
-        pet.setOwner(owner);
-        pet.setVisits(Collections.singletonList(visit));
-        //pet.setVisits("2020/01/14", "Visit", "id", "pet");
-        pet = RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body(pet)
-                .post("/pets")
-                .then()
-                .log().all()
-                .statusCode(201)
-                .extract().body()
-                .as(Pet.class);
-    }
+    //@Test
     private void ownerDelete(String ownerId){
         RestAssured.given()
                 .log().all()
                 .delete("/owners/{id}", ownerId)
                 .then()
                 .statusCode(204);
+    }
+    @Test
+    private void ownerDelete404(){
+        RestAssured.given()
+                .log().all()
+                .delete("/owners/404")
+                .then()
+                .statusCode(404);
     }
     @Test
     public void searchOfOwner(){
@@ -151,7 +148,18 @@ public class OwnerTests {
                 .extract().body();
     }
     @Test
+    public void searchOfOwnerError(){
+        RestAssured.given()
+                .get("/owners/*/lastname/unavailable")
+                .then()
+                .statusCode(404)
+                .log().all()
+                .extract().body();
+    }
+    @Test
     public void ownerUpdate() {
+        owner.setLastName("Test");
+        owner.setAddress("User");
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(owner)
@@ -159,6 +167,15 @@ public class OwnerTests {
                 .then()
                 .statusCode(204)
                 //.body("id", equalTo(newApiOwner.getId()))
+                .log().all();
+    }
+    @Test
+    public void ownerUpdateError() {
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .put("/owners/{id}", owner.getId())
+                .then()
+                .statusCode(400)
                 .log().all();
     }
 
@@ -199,6 +216,39 @@ public class OwnerTests {
 //                .then()
 //                .statusCode(204);
 //    }
-
-
+//@Test
+//public void addPetToOwner() {
+//    pet = new Pet();
+//    String name = "Tuzik";
+//    pet.setName(name);
+//    pet.setBirthDate("2019/10/10");
+//    pet.setType(type);
+//    pet.setOwner(owner);
+//    pet.setVisits(Collections.singletonList(visit));
+//    //pet.setVisits("2020/01/14", "Visit", "id", "pet");
+//    pet = RestAssured.given()
+//            .contentType(ContentType.JSON)
+//            .body(pet)
+//            .post("/pets")
+//            .then()
+//            .log().all()
+//            .statusCode(201)
+//            .extract().body()
+//            .as(Pet.class);
+//}
+//public void visitAdd(){
+//    visit = new Visit();
+//    visit.setDate("2020/01/01");
+//    visit.setDescription("Test visit");
+//    visit.setPet(pet);
+//    visit = RestAssured.given()
+//            .contentType(ContentType.JSON)
+//            .body(type)
+//            .post("/visits")
+//            .then()
+//            .log().all()
+//            .statusCode(201)
+//            .extract().body()
+//            .as(Visit.class);
+//}
 }

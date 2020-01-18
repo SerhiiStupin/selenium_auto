@@ -2,27 +2,18 @@ package com.auto.APITests.Owner;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.parsing.Parser;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 
-public class PetsTests {
+public class PetsTests extends ApiTestPreconditions{
     Owner owner;
     Type type;
     Pet pet;
-    @BeforeClass
-    public void setUp() {
-        RestAssured.baseURI = "http://localhost";
-        //RestAssured.baseURI = "http://139.59.149.247";
-        RestAssured.port = 9966;
-        RestAssured.basePath = "/petclinic/api";
-        RestAssured.defaultParser = Parser.JSON;
-    }
-    @AfterMethod
+
+    @AfterClass
     public void cleanData() {
         if (pet != null){
             RestAssured.given()

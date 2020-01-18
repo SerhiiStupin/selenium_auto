@@ -6,6 +6,7 @@ public class Configuration {
     private String schema = System.getProperty("schema", "http://");
     private String host = System.getProperty("host", "139.59.149.247");
     private String port = System.getProperty("port", "8000");
+    private String apiPort = System.getProperty("port", "9966");
     private String baseUrl;
     private String browser = System.getProperty("browser", "chrome");
 
@@ -20,6 +21,8 @@ public class Configuration {
         return instance;
     }
     //        -DbaseUrl=http://139.59.149.247:8000/petclinic
+
+    public String apiPort() {return apiPort;}
     public String baseUrl() {
         return baseUrl;
     }
