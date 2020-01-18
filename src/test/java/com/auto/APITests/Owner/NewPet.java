@@ -1,96 +1,138 @@
 package com.auto.APITests.Owner;
-import com.fasterxml.jackson.annotation.*;
 
-import java.util.HashMap;
+import com.auto.PageObjectTests.Pet;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "birthDate",
+        "address",
+        "city",
+        "firstName",
         "id",
-        "name",
-        "owner",
-        "type",
-        "visits"
+        "lastName",
+        "pets",
+        "telephone"
 })
-public class NewPet {
-        @JsonProperty("birthDate")
-        private String birthDate;
-        @JsonProperty("id")
-        private Integer id;
-        @JsonProperty("name")
-        private String name;
-        @JsonProperty("owner")
-        private Owner owner;
-        @JsonProperty("type")
-        private NewType type;
-        @JsonProperty("visits")
-        private List<NewVisit> visits = null;
-        @JsonIgnore
-        private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+public class Owner {
+    @JsonProperty("address")
+    private String address;
+    @JsonProperty("city")
+    private String city;
+    @JsonProperty("firstName")
+    private String firstName;
+    @JsonProperty("id")
+    private Integer id;
+    @JsonProperty("lastName")
+    private String lastName;
+    @JsonProperty("pets")
+    private List<Pet> pets = null;
+    @JsonProperty("telephone")
+    private String telephone;
 
-        @JsonProperty("birthDate")
-        public String getBirthDate() {
-            return birthDate;
-        }
+    @JsonProperty("address")
+    public String getAddress() {
+        return address;
+    }
 
-        @JsonProperty("birthDate")
-        public void setBirthDate(String birthDate) {
-            this.birthDate = birthDate;
-        }
+    @JsonProperty("address")
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-        @JsonProperty("id")
-        public Integer getId() {
-            return id;
-        }
+    @JsonProperty("city")
+    public String getCity() {
+        return city;
+    }
 
-        @JsonProperty("id")
-        public void setId(Integer id) {
-            this.id = id;
-        }
+    @JsonProperty("city")
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-        @JsonProperty("name")
-        public String getName() {
-            return name;
-        }
+    @JsonProperty("firstName")
+    public String getFirstName() {
+        return firstName;
+    }
 
-        @JsonProperty("name")
-        public void setName(String name) {
-            this.name = name;
-        }
+    @JsonProperty("firstName")
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-        @JsonProperty("owner")
-        public Owner getOwner() {
-            return owner;
-        }
+    @JsonProperty("id")
+    public String getId() {
+        return String.valueOf(id);
+    }
 
-        @JsonProperty("owner")
-        public void setOwner(Owner owner) {
-            this.owner = owner;
-        }
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-        @JsonProperty("type")
-        public NewType getType() {
-            return type;
-        }
+    @JsonProperty("lastName")
+    public String getLastName() {
+        return lastName;
+    }
 
-        @JsonProperty("type")
-        public void setType(NewType type) {
-            this.type = type;
-            //return null;
-        }
+    @JsonProperty("lastName")
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-        @JsonProperty("visits")
-        public List<NewVisit> getVisits() {
-            return visits;
-        }
+    @JsonProperty("pets")
+    public List<Pet> getPets() {
+        return pets;
+    }
 
-        @JsonProperty("visits")
-        public void setVisits(List<NewVisit> visits) {
-            this.visits = visits;
-        }
+    @JsonProperty("pets")
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
+    }
 
-    public void setVisits(String date, String description, String id, String pet) {
+    @JsonProperty("telephone")
+    public String getTelephone() {
+        return telephone;
+    }
+
+    @JsonProperty("telephone")
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Owner owner = (Owner) o;
+        return Objects.equals(address, owner.address) &&
+                Objects.equals(city, owner.city) &&
+                Objects.equals(firstName, owner.firstName) &&
+                Objects.equals(id, owner.id) &&
+                Objects.equals(lastName, owner.lastName) &&
+                Objects.equals(pets, owner.pets) &&
+                Objects.equals(telephone, owner.telephone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(address, city, firstName, id, lastName, pets, telephone);
+    }
+
+    @Override
+    public String toString() {
+        return "Owner{" +
+                "address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", pets=" + pets +
+                ", telephone='" + telephone + '\'' +
+                '}';
     }
 }
