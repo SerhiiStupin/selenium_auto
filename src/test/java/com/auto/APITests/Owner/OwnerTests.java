@@ -13,6 +13,7 @@ import java.util.Collections;
 import static org.hamcrest.Matchers.*;
 
 public class OwnerTests {
+    String lastName = "Nator";
     Owner owner;
     Type type;
     Visit visit;
@@ -161,8 +162,6 @@ public class OwnerTests {
                 .log().all();
     }
 
-
-
 //    @Test
 //    public void ownerUpdate(){
 //        RestAssured.given()
@@ -201,5 +200,5 @@ public class OwnerTests {
 //                .statusCode(204);
 //    }
 
-    String lastName = "Nator";
+
 }
