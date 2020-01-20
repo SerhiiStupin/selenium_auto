@@ -1,5 +1,6 @@
 package com.auto.PageObjectTests;
 
+import com.auto.APITests.Owner.ApiTestPreconditions;
 import com.auto.TestPreconditions;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
@@ -9,31 +10,21 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OwnerTests extends TestPreconditions {
-
     @Test
     public void pageCheck(){
         goToOwnersPage();
         assertUrl(driver.getCurrentUrl());
     }
     @Test
-    public void addNewOwnerTest() {
-        String firstName = "James";
-        String lastName = "Bond";
-        String address = "Some Street";
-        String city = "London";
-        String phone = "2151212";
+    public void addNewOwnerTestWithApi() {
         goToOwnersPage();
         OwnersPage ownersPage = new OwnersPage(driver);
         List<WebElement> before = ownersPage.ownersList();
         assertUrl(driver.getCurrentUrl());
-        ownersPage.clickAddOwnerBtn();
-        NewOwnerPage newOwnerPage = new NewOwnerPage(driver);
-        newOwnerPage.setFirstName(firstName);
-        newOwnerPage.setLastName(lastName);
-        newOwnerPage.setAddress(address);
-        newOwnerPage.setCity(city);
-        newOwnerPage.setTelephone(phone);
-        ownersPage = newOwnerPage.clickAddOwnerButton();
+        ApiTestPreconditions apiPrec = new ApiTestPreconditions();
+        apiPrec.setUp();
+        apiPrec.addOwner();
+        goToOwnersPage();
         driver.navigate().refresh();
         List<WebElement> after = ownersPage.ownersList();
         assertThat(before.size()+1).isEqualTo(after.size());
@@ -77,7 +68,6 @@ public class OwnerTests extends TestPreconditions {
     @Test
     public void addressValidationTest() {
         String address = "Address is required";
-
         goToOwnersPage();
         OwnersPage ownersPage = new OwnersPage(driver);
         NewOwnerPage newOwnerPage = ownersPage.clickAddOwnerBtn();
@@ -109,5 +99,27 @@ public class OwnerTests extends TestPreconditions {
         newOwnerPage.clearTelephone();
         assertThat(telephoneRequired).isEqualTo(newOwnerPage.helpBlock());
     }
-
 }
+//    @Test
+//    public void addNewOwnerTest() {
+//        String firstName = "James";
+//        String lastName = "Bond";
+//        String address = "Some Street";
+//        String city = "London";
+//        String phone = "2151212";
+//        goToOwnersPage();
+//        OwnersPage ownersPage = new OwnersPage(driver);
+//        List<WebElement> before = ownersPage.ownersList();
+//        assertUrl(driver.getCurrentUrl());
+//        ownersPage.clickAddOwnerBtn();
+//        NewOwnerPage newOwnerPage = new NewOwnerPage(driver);
+//        newOwnerPage.setFirstName(firstName);
+//        newOwnerPage.setLastName(lastName);
+//        newOwnerPage.setAddress(address);
+//        newOwnerPage.setCity(city);
+//        newOwnerPage.setTelephone(phone);
+//        ownersPage = newOwnerPage.clickAddOwnerButton();
+//        driver.navigate().refresh();
+//        List<WebElement> after = ownersPage.ownersList();
+//        assertThat(before.size()+1).isEqualTo(after.size());
+//    }

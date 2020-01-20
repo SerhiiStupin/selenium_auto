@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import static org.hamcrest.Matchers.*;
 
-public class OwnerTests extends ApiTestPreconditions {
+public class OwnerTests extends ApiTestPreconditions{
     String lastName = "Nator";
     String owners = "/owners";
     String petTypesUrl = "/pettypes";

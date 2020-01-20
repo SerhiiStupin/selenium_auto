@@ -5,10 +5,18 @@ import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
 import org.testng.annotations.BeforeClass;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+
 public class ApiTestPreconditions {
     Owner owner;
     Pet pet;
     Type type;
+    Specialty specialty;
+    Vets vets;
     @BeforeClass
     public void setUp() {
         RestAssured.baseURI = "http://localhost";
@@ -16,6 +24,52 @@ public class ApiTestPreconditions {
         RestAssured.port = 9966;
         RestAssured.basePath = "/petclinic/api";
         RestAssured.defaultParser = Parser.JSON;
+    }
+        public void specCreationPrec() {
+        specialty = new Specialty();
+        specialty.setName("lor");
+        specialty = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(specialty)
+                .post("/specialties")
+                .then()
+                .statusCode(201)
+                .extract().body()
+                .as(Specialty.class);
+    }
+    public void vetCreationPrec() {
+        vets = new Vets();
+        List<Specialty> spec = new ArrayList<>();
+        vets.setFirstName("i");
+        vets.setLastName("Bolit");
+        vets.setSpecialties(spec);
+        vets =  RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(vets)
+                .post("/vets")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .body("id", notNullValue())
+                .body("firstName", equalTo(vets.getFirstName()))
+                .extract().body()
+                .as(Vets.class);
+    }
+    public void addOwner() {
+        owner = new Owner();
+        owner.setFirstName("Pavlo");
+        owner.setLastName("Zibrov");
+        owner.setAddress("Khreschatik");
+        owner.setCity("Kyiv");
+        owner.setTelephone("2589631470");
+        owner = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(owner)
+                .post("/owners")
+                .then()
+                .statusCode(201)
+                .extract().body()
+                .as(Owner.class);
     }
     public void addOwnerAndPets(){
         owner = new Owner();

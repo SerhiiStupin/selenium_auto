@@ -1,7 +1,7 @@
 package com.auto.PageObjectTests;
 
+import com.auto.APITests.Owner.ApiTestPreconditions;
 import com.auto.TestPreconditions;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
@@ -10,10 +10,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SpecTests extends TestPreconditions {
-//    public SpecTests(WebDriver driver) {
-//        super(driver);
-//    }
-
     @Test
     public void pageCheck(){
         goToSpecialtiesPage();
@@ -21,12 +17,12 @@ public class SpecTests extends TestPreconditions {
     }
     @Test
     public void specialtyAddingTest() {
-        String spec = "X-Ray";
+        String spec = "lor";
+        ApiTestPreconditions apiPrec = new ApiTestPreconditions();
+        apiPrec.setUp();
+        apiPrec.specCreationPrec();
         goToSpecialtiesPage();
         SpecPage specPage = new SpecPage(driver);
-        specPage.addBtn();
-        specPage.setName(spec);
-        specPage.saveBtn();
         driver.navigate().refresh();
         assertThat(specPage.specList()).isEqualTo(spec);
     }
@@ -42,14 +38,14 @@ public class SpecTests extends TestPreconditions {
     }
     @Test
     public void petTypeDeleteTest() {
-        String spec = "LOR";
+        String spec = "lor";
         goToSpecialtiesPage();
         SpecPage specPage = new SpecPage(driver);
         List<WebElement> before = specPage.specialists();
-        specPage.addBtn();
-        specPage.setName(spec);
-        specPage.saveBtn();
-        driver.navigate().refresh();
+        ApiTestPreconditions apiPrec = new ApiTestPreconditions();
+        apiPrec.setUp();
+        apiPrec.specCreationPrec();
+        goToSpecialtiesPage();
         assertThat(specPage.specList()).isEqualTo(spec);
         List<WebElement> afterAdding = specPage.specialists();
         assertThat(before.size()+1).isEqualTo(afterAdding.size());
@@ -66,3 +62,32 @@ public class SpecTests extends TestPreconditions {
         assertUrl(home);
     }
 }
+//    @Test
+//    public void specialtyAddingTest() {
+//        String spec = "X-Ray";
+//        goToSpecialtiesPage();
+//        SpecPage specPage = new SpecPage(driver);
+//        specPage.addBtn();
+//        specPage.setName(spec);
+//        specPage.saveBtn();
+//        driver.navigate().refresh();
+//        assertThat(specPage.specList()).isEqualTo(spec);
+//    }
+//@Test
+//public void petTypeDeleteTest() {
+//    String spec = "LOR";
+//    goToSpecialtiesPage();
+//    SpecPage specPage = new SpecPage(driver);
+//    List<WebElement> before = specPage.specialists();
+//    specPage.addBtn();
+//    specPage.setName(spec);
+//    specPage.saveBtn();
+//    driver.navigate().refresh();
+//    assertThat(specPage.specList()).isEqualTo(spec);
+//    List<WebElement> afterAdding = specPage.specialists();
+//    assertThat(before.size()+1).isEqualTo(afterAdding.size());
+//    specPage.deleteLast();
+//    driver.navigate().refresh();
+//    List<WebElement> afterDeleting = specPage.specialists();
+//    assertThat(before.size()).isEqualTo(afterDeleting.size());
+//}

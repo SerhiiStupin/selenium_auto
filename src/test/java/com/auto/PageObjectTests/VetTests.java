@@ -1,10 +1,12 @@
 package com.auto.PageObjectTests;
 
+import com.auto.APITests.Owner.ApiTestPreconditions;
 import com.auto.TestPreconditions;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
+
 import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertTrue;
 
@@ -13,33 +15,13 @@ public class VetTests extends TestPreconditions {
     @Test
     public void addVetTest() {
         VeterinariansPage veterinariansPage = goToVetsPage();
-
-        NewVeterPage newVeterPage = veterinariansPage.clickAddBtn();
-        newVeterPage.setFirstName("First");
-        newVeterPage.setLastName("Test");
-        newVeterPage.specTypeList(1);
-
-        veterinariansPage = newVeterPage.saveVetButtonClick();
+        ApiTestPreconditions apiPrec = new ApiTestPreconditions();
+        apiPrec.setUp();
+        apiPrec.vetCreationPrec();
         goToVetsPage();
         List<String> vets = veterinariansPage.getVetsList();
-        assertTrue(vets.contains("First Test"));
+        assertTrue(vets.contains("i Bolit"));
     }
-
-        /*Этот вариант почему-то не срабатывает. В списке все элементы = null. Еще над ним поработаю позже
-        VeterinariansPage veterinariansPage = goToVetsPage();
-        Veterinarian veterinarian = new Veterinarian();
-        veterinarian.setFirstName("First");
-        veterinarian.setLastName("Test");
-        veterinarian.setType(1);
-
-        NewVeterPage newVeterPage = veterinariansPage.clickAddBtn();
-        newVeterPage.createVet(veterinarian);
-        veterinariansPage = newVeterPage.saveVetButtonClick();
-
-        List<Veterinarian> newVetlist = veterinariansPage.getVetsList();
-        assertThat(newVetlist).contains(veterinarian);
-         */
-
     @Test
     public void addEmptyVet(){
         VeterinariansPage veterinariansPage = goToVetsPage();
@@ -95,3 +77,32 @@ public class VetTests extends TestPreconditions {
         assertUrl(home);
     }
 }
+//    @Test
+//    public void addVetTest() {
+//        VeterinariansPage veterinariansPage = goToVetsPage();
+//
+//        NewVeterPage newVeterPage = veterinariansPage.clickAddBtn();
+//        newVeterPage.setFirstName("First");
+//        newVeterPage.setLastName("Test");
+//        newVeterPage.specTypeList(1);
+//
+//        veterinariansPage = newVeterPage.saveVetButtonClick();
+//        goToVetsPage();
+//        List<String> vets = veterinariansPage.getVetsList();
+//        assertTrue(vets.contains("First Test"));
+//    }
+
+        /*Этот вариант почему-то не срабатывает. В списке все элементы = null. Еще над ним поработаю позже
+        VeterinariansPage veterinariansPage = goToVetsPage();
+        Veterinarian veterinarian = new Veterinarian();
+        veterinarian.setFirstName("First");
+        veterinarian.setLastName("Test");
+        veterinarian.setType(1);
+
+        NewVeterPage newVeterPage = veterinariansPage.clickAddBtn();
+        newVeterPage.createVet(veterinarian);
+        veterinariansPage = newVeterPage.saveVetButtonClick();
+
+        List<Veterinarian> newVetlist = veterinariansPage.getVetsList();
+        assertThat(newVetlist).contains(veterinarian);
+         */
