@@ -10,6 +10,8 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 public class SpecialtyTests extends ApiTestPreconditions{
         private Specialty specialty;
+        String specUrl = "/specialties";
+        String specIdUrl = "/specialties/{id}";
 
         @BeforeMethod
         public void createSpec() {
@@ -26,7 +28,7 @@ public class SpecialtyTests extends ApiTestPreconditions{
             RestAssured.given()
                     .contentType(ContentType.JSON)
                     .body(specialty)
-                    .put("/specialties/{id}", specialty.getId())
+                    .put(specIdUrl, specialty.getId())
                     .then()
                     .statusCode(204)
                     .log().all();
@@ -36,7 +38,7 @@ public class SpecialtyTests extends ApiTestPreconditions{
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(specialty)
-                .put("/specialties/{id}", 123)
+                .put(specIdUrl, 123)
                 .then()
                 .statusCode(404)
                 .log().all();
@@ -44,7 +46,7 @@ public class SpecialtyTests extends ApiTestPreconditions{
     @Test
     public void specSreachById() {
         given()
-                .get("/specialties/{id}", specialty.getId())
+                .get(specIdUrl, specialty.getId())
                 .then()
                 .statusCode(200)
                 .body("id", equalTo(specialty.getId()))
@@ -54,7 +56,7 @@ public class SpecialtyTests extends ApiTestPreconditions{
     @Test
     public void specSreachByIdError() {
         given()
-                .get("/specialties/{id}", 789)
+                .get(specIdUrl, 789)
                 .then()
                 .statusCode(404)
                 .log().all();
@@ -65,7 +67,7 @@ public class SpecialtyTests extends ApiTestPreconditions{
         return RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(lor)
-                .post("/specialties")
+                .post(specUrl)
                 .then()
                 .statusCode(201)
                 .extract().body()
@@ -75,7 +77,7 @@ public class SpecialtyTests extends ApiTestPreconditions{
         public void specDelete(int petId) {
             given()
                     .log().all()
-                    .delete("/specialties/{id}", petId)
+                    .delete(specIdUrl, petId)
                     .then()
                     .statusCode(204);
         }
@@ -86,7 +88,7 @@ public class SpecialtyTests extends ApiTestPreconditions{
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(lor)
-                .post("/specialties")
+                .post(specUrl)
                 .then()
                 .statusCode(400);
     }
@@ -94,7 +96,7 @@ public class SpecialtyTests extends ApiTestPreconditions{
     public void deleteError(){
         given()
                 .log().all()
-                .delete("/specialties/{id}", 404)
+                .delete(specIdUrl, 404)
                 .then()
                 .statusCode(404);
     }

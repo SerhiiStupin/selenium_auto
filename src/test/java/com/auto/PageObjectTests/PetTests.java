@@ -1,12 +1,14 @@
 package com.auto.PageObjectTests;
 
 import com.auto.TestPreconditions;
-import org.openqa.selenium.WebDriver;
+import io.qameta.allure.*;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
-import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+@Epic("Petclinic")
 public class PetTests extends TestPreconditions {
 //
 //    public PetTests(WebDriver driver) {
@@ -19,6 +21,9 @@ public class PetTests extends TestPreconditions {
         assertUrl(driver.getCurrentUrl());
     }
     @Test
+    @Story("Addding a pet")
+    @Severity(SeverityLevel.BLOCKER)
+    @TmsLink("1230")
     public void petTypeAddTest() {
         String name = "Alligator";
         goToPetTypesPage();
@@ -28,7 +33,7 @@ public class PetTests extends TestPreconditions {
         petTypePage.saveBtn();
         assertThat(petTypePage.typeList()).isEqualTo(name);
     }
-    @Test
+    @Test(description = "Adding an empty Pet")
     public void addingEmptyPet(){
         goToPetTypesPage();
         PetTypePage petTypePage = new PetTypePage(driver);
@@ -38,7 +43,7 @@ public class PetTests extends TestPreconditions {
         List<WebElement> after = petTypePage.petsList();
         assertThat(before.size()).isEqualTo(after.size());
     }
-    @Test
+    @Test(description = "Delete the new petType")
     public void petTypeDeleteTest() {
         String name = "Chupakabra";
         goToPetTypesPage();

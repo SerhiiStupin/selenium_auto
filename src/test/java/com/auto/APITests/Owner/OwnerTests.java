@@ -10,6 +10,8 @@ import static org.hamcrest.Matchers.*;
 
 public class OwnerTests extends ApiTestPreconditions {
     String lastName = "Nator";
+    String owners = "/owners";
+    String petTypesUrl = "/pettypes";
     Owner owner;
     Type type;
 
@@ -25,7 +27,7 @@ public class OwnerTests extends ApiTestPreconditions {
     @Test
     public void getOwners(){
         RestAssured.given()
-                .get("/owners")
+                .get(owners)
                 .then()
                 .statusCode(200)
                 .body("id", hasItems(1, 2, 3, 10))
@@ -37,7 +39,7 @@ public class OwnerTests extends ApiTestPreconditions {
     @Test
     public void getOwnersError(){
         RestAssured.given()
-                .get("/owner")
+                .get(owners + "ss")
                 .then()
                 .statusCode(404)
                 .log().all();
@@ -45,7 +47,7 @@ public class OwnerTests extends ApiTestPreconditions {
     @Test
     public void getOwnerByIdTest() {
         RestAssured.given()
-                .get("/owners/{id}", owner.getId())
+                .get(owners + "/{id}", owner.getId())
                 .then()
                 .statusCode(200)
                 .body("lastName", equalTo(lastName))
@@ -55,7 +57,7 @@ public class OwnerTests extends ApiTestPreconditions {
     @Test
     public void getOwnerByIdTestError() {
         RestAssured.given()
-                .get("/owners/{id}", 404)
+                .get(owners + "{id}", 404)
                 .then()
                 .statusCode(404)
                 .log().all();
@@ -72,7 +74,7 @@ public class OwnerTests extends ApiTestPreconditions {
         owner =  RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(owner)
-                .post("/owners")
+                .post(owners)
                 .then()
                 .log().all()
                 .statusCode(201)
@@ -87,7 +89,7 @@ public class OwnerTests extends ApiTestPreconditions {
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(owner)
-                .post("/owners")
+                .post(owners)
                 .then()
                 .log().all()
                 .statusCode(400);
@@ -99,7 +101,7 @@ public class OwnerTests extends ApiTestPreconditions {
         type =  RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(type)
-                .post("/pettypes")
+                .post(petTypesUrl)
                 .then()
                 .log().all()
                 .statusCode(201)
@@ -112,7 +114,7 @@ public class OwnerTests extends ApiTestPreconditions {
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(type)
-                .post("/pettypes")
+                .post(petTypesUrl)
                 .then()
                 .log().all()
                 .statusCode(400);
@@ -121,7 +123,7 @@ public class OwnerTests extends ApiTestPreconditions {
     private void ownerDelete(String ownerId){
         RestAssured.given()
                 .log().all()
-                .delete("/owners/{id}", ownerId)
+                .delete(owners + "/{id}", ownerId)
                 .then()
                 .statusCode(204);
     }
@@ -129,7 +131,7 @@ public class OwnerTests extends ApiTestPreconditions {
     private void ownerDelete404(){
         RestAssured.given()
                 .log().all()
-                .delete("/owners/404")
+                .delete(owners + "/404")
                 .then()
                 .statusCode(404);
     }
@@ -138,7 +140,7 @@ public class OwnerTests extends ApiTestPreconditions {
         String name = "Termi";
         String phone = "1234567890";
         RestAssured.given()
-                .get("/owners/*/lastname/{lastName}", lastName)
+                .get(owners + "/*/lastname/{lastName}", lastName)
                 .then()
                 .statusCode(200)
                 .body("lastName", hasItem(lastName))
@@ -150,7 +152,7 @@ public class OwnerTests extends ApiTestPreconditions {
     @Test
     public void searchOfOwnerError(){
         RestAssured.given()
-                .get("/owners/*/lastname/unavailable")
+                .get(owners + "/*/lastname/unavailable")
                 .then()
                 .statusCode(404)
                 .log().all()
@@ -163,17 +165,16 @@ public class OwnerTests extends ApiTestPreconditions {
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(owner)
-                .put("/owners/{id}", owner.getId())
+                .put(owners + "/{id}", owner.getId())
                 .then()
                 .statusCode(204)
-                //.body("id", equalTo(newApiOwner.getId()))
                 .log().all();
     }
     @Test
     public void ownerUpdateError() {
         RestAssured.given()
                 .contentType(ContentType.JSON)
-                .put("/owners/{id}", owner.getId())
+                .put(owners + "/{id}", owner.getId())
                 .then()
                 .statusCode(400)
                 .log().all();

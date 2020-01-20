@@ -27,7 +27,7 @@ public class Pet {
     @JsonProperty("type")
     private Type type;
     @JsonProperty("visits")
-    private List<Visit> visits;
+    private List<Visit> visits = null;
 
     @JsonProperty("birthDate")
     public String getBirthDate() {

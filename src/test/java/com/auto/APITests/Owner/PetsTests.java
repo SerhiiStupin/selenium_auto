@@ -9,6 +9,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 
 public class PetsTests extends ApiTestPreconditions{
+    String petsUrl = "/pets";
+    String petsIdUrl = "/pets/{id}";
     Owner owner;
     Type type;
     Pet pet;
@@ -18,7 +20,7 @@ public class PetsTests extends ApiTestPreconditions{
         if (pet != null){
             RestAssured.given()
                     .log().all()
-                    .delete("/pets/{id}", pet.getId())
+                    .delete(petsIdUrl, pet.getId())
                     .then()
                     .statusCode(204);
 
@@ -75,7 +77,7 @@ public class PetsTests extends ApiTestPreconditions{
         pet = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(pet)
-                .post("/pets")
+                .post(petsUrl)
                 .then()
                 .statusCode(201)
                 .extract().body()
@@ -85,7 +87,7 @@ public class PetsTests extends ApiTestPreconditions{
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(pet)
-                .put("/pets/"+ pet.getId())
+                .put(petsIdUrl, pet.getId())
                 .then()
                 .statusCode(204)
                 .log().all();
@@ -93,7 +95,7 @@ public class PetsTests extends ApiTestPreconditions{
     @Test
     public void petSearch(){
         RestAssured.given()
-                .get("/pets")
+                .get(petsUrl)
                 .then()
                 .statusCode(200)
                 .body("id", hasItems(1, 3, 4))
@@ -111,7 +113,7 @@ public class PetsTests extends ApiTestPreconditions{
     @Test
     public void PetTypeCheck(){
         RestAssured.given()
-                .get("pets/pettypes")
+                .get(petsUrl + "/pettypes")
                 .then()
                 .statusCode(200)
                 .body("id", hasItems(1, 5, 6))
@@ -131,7 +133,7 @@ public class PetsTests extends ApiTestPreconditions{
     public void petSearchById(){
         int petId = 1;
         RestAssured.given()
-                .get("/pets/"+ petId)
+                .get(petsIdUrl, petId)
                 .then()
                 .statusCode(200)
                 .body("birthDate", equalTo("2010/09/07"))
@@ -142,7 +144,7 @@ public class PetsTests extends ApiTestPreconditions{
     public void petSearchByIdError(){
         int petId = 1011;
         RestAssured.given()
-                .get("/pets/"+ petId)
+                .get(petsIdUrl, petId)
                 .then()
                 .statusCode(404)
                 .log().all();

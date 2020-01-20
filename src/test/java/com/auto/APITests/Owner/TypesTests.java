@@ -11,7 +11,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 
 public class TypesTests extends ApiTestPreconditions{
-
+    String petTypesUrl = "/pettypes";
+    String petTypedIdUrl = "/pettypes/{id}";
     private Type type;
 
     @BeforeMethod
@@ -28,7 +29,7 @@ public class TypesTests extends ApiTestPreconditions{
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(type)
-                .put("/pettypes/{id}", type.getId())
+                .put(petTypedIdUrl, type.getId())
                 .then()
                 .statusCode(204)
                 .log().all();
@@ -38,7 +39,7 @@ public class TypesTests extends ApiTestPreconditions{
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(type)
-                .put("/pettypes/{id}", 0)
+                .put(petTypedIdUrl, 0)
                 .then()
                 .statusCode(404)
                 .log().all();
@@ -46,7 +47,7 @@ public class TypesTests extends ApiTestPreconditions{
     @Test
     public void getPetTypes(){
         given()
-                .get("/pettypes")
+                .get(petTypesUrl)
                 .then()
                 .statusCode(200)
                 .body("id", hasItems(1, 3, 6))
@@ -65,7 +66,7 @@ public class TypesTests extends ApiTestPreconditions{
     @Test
     public void getPetTypeByIdTest() {
         RestAssured.given()
-                .get("/pettypes/{id}", type.getId())
+                .get(petTypedIdUrl, type.getId())
                 .then()
                 .statusCode(200)
                 .body("id", equalTo(type.getId()))
@@ -75,7 +76,7 @@ public class TypesTests extends ApiTestPreconditions{
     @Test
     public void getPetTypeByIdTest404() {
         RestAssured.given()
-                .get("/pettypes/{id}", 0)
+                .get(petTypedIdUrl, 0)
                 .then()
                 .statusCode(404)
                 .log().all();
@@ -86,7 +87,7 @@ public class TypesTests extends ApiTestPreconditions{
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(bizon)
-                .post("/pettypes")
+                .post(petTypesUrl)
                 .then()
                 .statusCode(400)
                 .log().all();
@@ -97,7 +98,7 @@ public class TypesTests extends ApiTestPreconditions{
         return RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(bizon)
-                .post("/pettypes")
+                .post(petTypesUrl)
                 .then()
                 .statusCode(201)
                 .extract().body()
@@ -107,7 +108,7 @@ public class TypesTests extends ApiTestPreconditions{
     public void deletePetTypeByIdTest(int petId) {
         given()
                 .log().all()
-                .delete("/pettypes/{id}", petId)
+                .delete(petTypedIdUrl, petId)
                 .then()
                 .statusCode(204);
     }
@@ -116,7 +117,7 @@ public class TypesTests extends ApiTestPreconditions{
         int petId = 651;
         given()
                 .log().all()
-                .delete("/pettypes/{id}", petId)
+                .delete(petTypedIdUrl, petId)
                 .then()
                 .statusCode(404);
     }

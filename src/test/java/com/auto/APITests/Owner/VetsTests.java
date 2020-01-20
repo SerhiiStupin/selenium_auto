@@ -13,6 +13,9 @@ import static org.hamcrest.Matchers.*;
 
 public class VetsTests extends ApiTestPreconditions{
     String lastName = "Bolit";
+    String vetsUrl = "/vets";
+    String vetsIdUrl = "/vets/{id}";
+
     Vets vets = new Vets();
 
     @BeforeMethod
@@ -27,7 +30,7 @@ public class VetsTests extends ApiTestPreconditions{
     @Test
     public void getVets(){
         RestAssured.given()
-                .get("/vets")
+                .get(vetsUrl)
                 .then()
                 .statusCode(200)
                 .body("id", hasItems(1, 3, 6))
@@ -46,7 +49,7 @@ public class VetsTests extends ApiTestPreconditions{
     @Test
     public void getVetByIdTest() {
         RestAssured.given()
-                .get("/vets/{id}", vets.getId())
+                .get(vetsIdUrl, vets.getId())
                 .then()
                 .statusCode(200)
                 .body("lastName", equalTo(lastName))
@@ -56,7 +59,7 @@ public class VetsTests extends ApiTestPreconditions{
     @Test
     public void getVetByIdTest404() {
         RestAssured.given()
-                .get("/vets/{id}", 0.5)
+                .get(vetsIdUrl, 0.5)
                 .then()
                 .statusCode(400)
                 .log().all();
@@ -70,7 +73,7 @@ public class VetsTests extends ApiTestPreconditions{
         return RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(vets)
-                .post("/vets")
+                .post(vetsUrl)
                 .then()
                 .log().all()
                 .statusCode(201)
@@ -82,7 +85,7 @@ public class VetsTests extends ApiTestPreconditions{
     private void vetDelete(String ownerId){
         RestAssured.given()
                 .log().all()
-                .delete("/vets/{id}", ownerId)
+                .delete(vetsIdUrl, ownerId)
                 .then()
                 .statusCode(204);
     }
@@ -97,7 +100,7 @@ public class VetsTests extends ApiTestPreconditions{
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(vets)
-                .put("/vets/{id}", id)
+                .put(vetsIdUrl, id)
                 .then()
                 .log().all()
                 .statusCode(204)
@@ -109,7 +112,7 @@ public class VetsTests extends ApiTestPreconditions{
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(vets)
-                .post("/vets")
+                .post(vetsUrl)
                 .then()
                 .log().all()
                 .statusCode(400);
@@ -118,7 +121,7 @@ public class VetsTests extends ApiTestPreconditions{
     public void vetDeleteError(){
         RestAssured.given()
                 .log().all()
-                .delete("/vets/{id}", 404)
+                .delete(vetsIdUrl, 404)
                 .then()
                 .statusCode(404);
     }
@@ -133,7 +136,7 @@ public class VetsTests extends ApiTestPreconditions{
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(vets)
-                .put("/vets/{id}", id)
+                .put(vetsIdUrl, id)
                 .then()
                 .log().all()
                 .statusCode(404)
