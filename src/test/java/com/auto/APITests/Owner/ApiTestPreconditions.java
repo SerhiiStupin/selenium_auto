@@ -13,23 +13,25 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class ApiTestPreconditions {
-    String lastName = "Nator";
-    String owners = "/owners";
-    String petTypesUrl = "/pettypes";
-    String petTypedIdUrl = "/pettypes/{id}";
-    String specUrl = "/specialties";
-    String specIdUrl = "/specialties/{id}";
-    String vetLastName = "Bolit";
-    String vetsUrl = "/vets";
-    String vetsIdUrl = "/vets/{id}";
-    String petsUrl = "/pets";
-    String petsIdUrl = "/pets/{id}";
+    final String lastName = "Nator";
+    final String owners = "/owners";
+    final String petTypesUrl = "/pettypes";
+    final String petTypedIdUrl = "/pettypes/{id}";
+    final String specUrl = "/specialties";
+    final String specIdUrl = "/specialties/{id}";
+    final String vetLastName = "Bolit";
+    final String vetsUrl = "/vets";
+    final String vetsIdUrl = "/vets/{id}";
+    final String petsUrl = "/pets";
+    final String petsIdUrl = "/pets/{id}";
 
     Owner owner;
     Pet pet;
     Type type;
     Specialty specialty;
     Vets vets;
+
+
     @BeforeClass
     public void setUp() {
         RestAssured.baseURI = "http://localhost";

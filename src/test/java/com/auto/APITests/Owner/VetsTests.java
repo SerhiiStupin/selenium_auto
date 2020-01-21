@@ -1,30 +1,37 @@
 package com.auto.APITests.Owner;
 
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.hamcrest.Matchers.*;
 
+@Epic("PetClinic")
+@Feature("Vets API")
 public class VetsTests extends ApiTestPreconditions{
-
     Vets vets = new Vets();
 
     @BeforeMethod
+    @Step("Vets creating")
     public void createSpec() {
         vets = vetCreation();
     }
 
     @AfterMethod
+    @Step("Vets deleting")
     public void deleteSpec() {
         vetDelete(String.valueOf(vets.getId()));
     }
-    @Test
+
+    @Test(description = "Get vets by first name and last name")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Get vets by first name and last name")
+    @TmsLink("vets.com")
+    @Issue("Bug-50")
     public void getVets(){
         RestAssured.given()
                 .get(vetsUrl)
@@ -35,7 +42,11 @@ public class VetsTests extends ApiTestPreconditions{
                 .body("lastName", hasItems("Ortega", "Carter"))
                 .log().all();
     }
-    @Test
+    @Test(description = "Get incorrect vets")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Story("Get incorrect vets")
+    @TmsLink("vets.com")
+    @Issue("Bug-51")
     public void getVetsError(){
         RestAssured.given()
                 .get("/vetss")
@@ -43,7 +54,11 @@ public class VetsTests extends ApiTestPreconditions{
                 .statusCode(404)
                 .log().all();
     }
-    @Test
+    @Test(description = "Get created vet by id and lastName")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("Get created vet by id and lastName")
+    @TmsLink("vets.com")
+    @Issue("Bug-52")
     public void getVetByIdTest() {
         RestAssured.given()
                 .get(vetsIdUrl, vets.getId())
@@ -53,7 +68,11 @@ public class VetsTests extends ApiTestPreconditions{
                 .body("id", equalTo(vets.getId()))
                 .log().all();
     }
-    @Test
+    @Test(description = "Get created vet by incorrect id")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Story("Get created vet by incorrect id")
+    @TmsLink("vets.com")
+    @Issue("Bug-53")
     public void getVetByIdTest404() {
         RestAssured.given()
                 .get(vetsIdUrl, 0.5)
@@ -86,7 +105,11 @@ public class VetsTests extends ApiTestPreconditions{
                 .then()
                 .statusCode(204);
     }
-    @Test
+    @Test(description = "Update of the vet")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Update of the vet")
+    @TmsLink("vets.com")
+    @Issue("Bug-54")
     private void vetUpdate() {
         int id = 6;
         Vets vets = new Vets();
@@ -103,7 +126,11 @@ public class VetsTests extends ApiTestPreconditions{
                 .statusCode(204)
                 .log().all();
     }
-    @Test
+    @Test(description = "Vet creation with incorrect data")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Story("Vet creation with incorrect data")
+    @TmsLink("vets.com")
+    @Issue("Bug-55")
     public void vetCreationError() {
         Vets vets = new Vets();
         RestAssured.given()
@@ -114,7 +141,11 @@ public class VetsTests extends ApiTestPreconditions{
                 .log().all()
                 .statusCode(400);
     }
-    @Test
+    @Test(description = "Vet deleting")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Vet deleting")
+    @TmsLink("vets.com")
+    @Issue("Bug-56")
     public void vetDeleteError(){
         RestAssured.given()
                 .log().all()
@@ -122,7 +153,11 @@ public class VetsTests extends ApiTestPreconditions{
                 .then()
                 .statusCode(404);
     }
-    @Test
+    @Test(description = "Incorrect vet update")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Incorrect vet update")
+    @TmsLink("vets.com")
+    @Issue("Bug-57")
     private void vetUpdateError() {
         int id = 628;
         Vets vets = new Vets();
