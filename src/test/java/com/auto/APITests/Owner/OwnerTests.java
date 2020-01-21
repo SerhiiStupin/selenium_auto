@@ -1,5 +1,6 @@
 package com.auto.APITests.Owner;
 
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.testng.annotations.AfterClass;
@@ -7,24 +8,27 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.Matchers.*;
-
+@Epic("PetClinic")
+@Feature("Owner API")
 public class OwnerTests extends ApiTestPreconditions{
-    String lastName = "Nator";
-    String owners = "/owners";
-    String petTypesUrl = "/pettypes";
     Owner owner;
-    Type type;
 
     @BeforeMethod
+    @Step("Creating of the owner before all tests")
     public void createOwner() {
         ownerCreationTest();
     }
     @AfterClass
+    @Step("Deleting of the created owner by Id")
     public void deleteOwner() {
        ownerDelete(owner.getId());
     }
 
-    @Test
+    @Test(description = "Getting some of owners")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("Getting some of owners")
+    @TmsLink("owners.com")
+    @Issue("Bug-1501868")
     public void getOwners(){
         RestAssured.given()
                 .get(owners)
@@ -36,7 +40,10 @@ public class OwnerTests extends ApiTestPreconditions{
                 .body("address", hasItem("2335 Independence La."))
                 .log().all();
     }
-    @Test
+    @Test(description = "Getting error on owners page")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Story("Getting error on owners page")
+    @TmsLink("owners.com")
     public void getOwnersError(){
         RestAssured.given()
                 .get(owners + "ss")
@@ -44,7 +51,11 @@ public class OwnerTests extends ApiTestPreconditions{
                 .statusCode(404)
                 .log().all();
     }
-    @Test
+    @Test(description = "Get of owner via Id")
+    @Severity(SeverityLevel.MINOR)
+    @Story("Get of owner via Id")
+    @TmsLink("owners.com")
+    @Issue("Bug-15868")
     public void getOwnerByIdTest() {
         RestAssured.given()
                 .get(owners + "/{id}", owner.getId())
@@ -54,7 +65,11 @@ public class OwnerTests extends ApiTestPreconditions{
                 .body("id", equalTo(Integer.parseInt(owner.getId())))
                 .log().all();
     }
-    @Test
+    @Test(description = "Getting of incorrect owner")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Story("Getting of incorrect owner")
+    @TmsLink("owners.com")
+    @Issue("Bug-1586899")
     public void getOwnerByIdTestError() {
         RestAssured.given()
                 .get(owners + "{id}", 404)
@@ -62,7 +77,11 @@ public class OwnerTests extends ApiTestPreconditions{
                 .statusCode(404)
                 .log().all();
     }
-    @Test
+    @Test(description = "Creating a new owner")
+    @Severity(SeverityLevel.BLOCKER)
+    @Story("Creating a new owner")
+    @TmsLink("owners.com")
+    @Issue("Bug-1")
     public void ownerCreationTest() {
         owner = new Owner();
         owner.setId(0);
@@ -71,7 +90,7 @@ public class OwnerTests extends ApiTestPreconditions{
         owner.setCity("LA");
         owner.setAddress("Street");
         owner.setTelephone("1234567890");
-        owner =  RestAssured.given()
+        owner = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(owner)
                 .post(owners)
@@ -83,7 +102,11 @@ public class OwnerTests extends ApiTestPreconditions{
                 .extract().body()
                 .as(Owner.class);
     }
-    @Test
+    @Test(description = "Error while creating a new owner")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Story("Error while creating a new owner")
+    @TmsLink("owners.com")
+    @Issue("Bug-1616")
     public void ownerCreationTestError() {
         owner = new Owner();;
         RestAssured.given()
@@ -94,32 +117,7 @@ public class OwnerTests extends ApiTestPreconditions{
                 .log().all()
                 .statusCode(400);
     }
-    @Test
-    public void petTypeAdd(){
-        type = new Type();
-        type.setName("alligator");
-        type =  RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body(type)
-                .post(petTypesUrl)
-                .then()
-                .log().all()
-                .statusCode(201)
-                .extract().body()
-                .as(Type.class);
-    }
-    @Test
-    public void petTypeAddError(){
-        type = new Type();
-        RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body(type)
-                .post(petTypesUrl)
-                .then()
-                .log().all()
-                .statusCode(400);
-    }
-    //@Test
+
     private void ownerDelete(String ownerId){
         RestAssured.given()
                 .log().all()
@@ -127,7 +125,11 @@ public class OwnerTests extends ApiTestPreconditions{
                 .then()
                 .statusCode(204);
     }
-    @Test
+    @Test(description = "Deleting of incorrect owner")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Story("Deleting of incorrect owner")
+    @TmsLink("owners.com")
+    @Issue("Bug-17")
     private void ownerDelete404(){
         RestAssured.given()
                 .log().all()
@@ -135,7 +137,11 @@ public class OwnerTests extends ApiTestPreconditions{
                 .then()
                 .statusCode(404);
     }
-    @Test
+    @Test(description = "Getting of the owner")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("Getting of the owner")
+    @TmsLink("owners.com")
+    @Issue("Bug-18")
     public void searchOfOwner(){
         String name = "Termi";
         String phone = "1234567890";
@@ -149,7 +155,11 @@ public class OwnerTests extends ApiTestPreconditions{
                 .log().all()
                 .extract().body();
     }
-    @Test
+    @Test(description = "Getting of the owner (404 error)")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("Getting of the owner (404 error)")
+    @TmsLink("owners.com")
+    @Issue("Bug-19")
     public void searchOfOwnerError(){
         RestAssured.given()
                 .get(owners + "/*/lastname/unavailable")
@@ -158,7 +168,11 @@ public class OwnerTests extends ApiTestPreconditions{
                 .log().all()
                 .extract().body();
     }
-    @Test
+    @Test(description = "Owner info update")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Owner info update")
+    @TmsLink("owners.com")
+    @Issue("Bug-20")
     public void ownerUpdate() {
         owner.setLastName("Test");
         owner.setAddress("User");
@@ -170,7 +184,11 @@ public class OwnerTests extends ApiTestPreconditions{
                 .statusCode(204)
                 .log().all();
     }
-    @Test
+    @Test(description = "Owner info update error")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Story("Owner info update error")
+    @TmsLink("owners.com")
+    @Issue("Bug-20")
     public void ownerUpdateError() {
         RestAssured.given()
                 .contentType(ContentType.JSON)

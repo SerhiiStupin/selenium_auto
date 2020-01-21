@@ -1,17 +1,18 @@
 package com.auto;
 
-import com.auto.PageObjectTests.*;
+import com.auto.PageObjectTests.DriverManager;
+import com.auto.PageObjectTests.DriverType;
+import com.auto.PageObjectTests.VeterinariansPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
-import java.util.concurrent.TimeUnit;
 import static org.testng.Assert.assertEquals;
 
 public class TestPreconditions {
@@ -40,6 +41,7 @@ public class TestPreconditions {
         goToUrl(DEFAULT_URL + "/owners", "Owners");
     }
 
+    @Step("Veterinarians page opening")
     protected VeterinariansPage goToVetsPage() {
         goToUrl(DEFAULT_URL + "/vets", "Veterinarians");
         return new VeterinariansPage(driver);
@@ -65,6 +67,8 @@ public class TestPreconditions {
         protected WebDriverWait waiting() {
         return new WebDriverWait(driver, 2);
     }
+
+    @Step("Checking the current URL")
     public void assertUrl(String url){
         String currentUrl = driver.getCurrentUrl();
         assertEquals(currentUrl, url);

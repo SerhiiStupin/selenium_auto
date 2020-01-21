@@ -10,27 +10,34 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @Epic("Petclinic")
+@Feature("PetTypes")
 public class PetTests extends TestPreconditions {
 
-    @Test
+    @Test(description = "Checking Pets page")
+    @Story("Checking the URL")
+    @Severity(SeverityLevel.NORMAL)
+    @TmsLink("pettype.com")
     public void pageCheck(){
         goToPetTypesPage();
         assertUrl(driver.getCurrentUrl());
     }
-    @Test
-    @Story("Addding a pet")
+    @Test(description = "Adding a new Pet")
+    @Story("Adding a new pet")
     @Severity(SeverityLevel.BLOCKER)
-    @TmsLink("1230")
+    @TmsLink("pettype.com")
     public void petTypeAddTest() {
         String name = "Duck";
         ApiTestPreconditions apiPrec = new ApiTestPreconditions();
         apiPrec.setUp();
-        apiPrec.addOwnerAndPets();
+        apiPrec.petTypeadding();
         goToPetTypesPage();
         PetTypePage petTypePage = new PetTypePage(driver);
         assertThat(petTypePage.typeList()).isEqualTo(name);
     }
     @Test(description = "Adding an empty Pet")
+    @Severity(SeverityLevel.MINOR)
+    @Story("Adding pet without name and type")
+    @TmsLink("pettype.com")
     public void addingEmptyPet(){
         goToPetTypesPage();
         PetTypePage petTypePage = new PetTypePage(driver);
@@ -41,6 +48,9 @@ public class PetTests extends TestPreconditions {
         assertThat(before.size()).isEqualTo(after.size());
     }
     @Test(description = "Delete the new petType")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("Deleting of the pettype")
+    @TmsLink("pettype.com")
     public void petTypeDeleteTest() {
         String name = "Duck";
         goToPetTypesPage();
@@ -48,7 +58,7 @@ public class PetTests extends TestPreconditions {
         List<WebElement> before = petTypePage.petsList();
         ApiTestPreconditions apiPrec = new ApiTestPreconditions();
         apiPrec.setUp();
-        apiPrec.addOwnerAndPets();
+        apiPrec.petTypeadding();
         goToPetTypesPage();
         List<WebElement> afterAdding = petTypePage.petsList();
         assertThat(before.size()+1).isEqualTo(afterAdding.size());
@@ -57,7 +67,10 @@ public class PetTests extends TestPreconditions {
         List<WebElement> afterDeleting = petTypePage.petsList();
         assertThat(before.size()).isEqualTo(afterDeleting.size());
     }
-    @Test
+    @Test(description = "Returning to the home page")
+    @Severity(SeverityLevel.MINOR)
+    @Story("Returning to the home page")
+    @TmsLink("pettype.com")
     public void homeButtonTest() {
         goToPetTypesPage();
         PetTypePage petTypePage = new PetTypePage(driver);

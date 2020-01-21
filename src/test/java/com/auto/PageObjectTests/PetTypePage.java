@@ -20,7 +20,7 @@ public class PetTypePage {
         return driver.findElements(By.xpath("//tbody/tr"));
     }
 
-    @Step
+    @Step("Getting a name of item in the list")
     public String typeList() {
         return driver.findElement(By.xpath("//tr[last()]/td/input")).getAttribute("ng-reflect-model");
     }

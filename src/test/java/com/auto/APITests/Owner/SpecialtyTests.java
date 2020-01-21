@@ -10,8 +10,6 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 public class SpecialtyTests extends ApiTestPreconditions{
         private Specialty specialty;
-        String specUrl = "/specialties";
-        String specIdUrl = "/specialties/{id}";
 
         @BeforeMethod
         public void createSpec() {

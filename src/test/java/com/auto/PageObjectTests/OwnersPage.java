@@ -1,6 +1,7 @@
 package com.auto.PageObjectTests;
 
 import com.auto.TestPreconditions;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,10 +17,12 @@ public class OwnersPage extends TestPreconditions {
         this.driver = driver;
     }
 
+    @Step("Search of the added owner name")
     public WebElement addedOwnerSearch() {
         return driver.findElement(By.xpath("//*[text()='John Snow']"));
     }
 
+    @Step("Opwning Owners page")
     public OwnersPage openPage() {
         goToUrl("/owners", "Owners");
         return this;
@@ -52,13 +55,13 @@ public class OwnersPage extends TestPreconditions {
 //        addOwnerBtn.click();
 //        return new NewOwnerPage(driver);
 //    }
-
+    @Step("Add new owner button click")
     public NewOwnerPage clickAddOwnerBtn() {
         WebElement addOwnerBtn = driver.findElement(By.xpath("//*[text()='Add Owner']"));
         addOwnerBtn.click();
         return new NewOwnerPage(driver);
     }
-
+    @Step("New owner data setting")
     private Owner createOwner(WebElement userRow) {
         com.auto.PageObjectTests.Owner owner = new com.auto.PageObjectTests.Owner();
         String fullName = userRow.findElement(By.xpath("./td/a")).getText();
@@ -80,15 +83,18 @@ public class OwnersPage extends TestPreconditions {
 
         return (Owner) owner;
     }
+    @Step("Getting a list of owners")
     public List<WebElement> ownersList(){
         return driver.findElements(By.cssSelector("td.ownerFullName"));
     }
 
+    @Step("Click on owner's name")
     public OwnerInformationPage openOwnerInfo(String fullName) {
         WebElement owner = driver.findElement(By.xpath("//a[text()='"+fullName+"']"));
         owner.click();
         return new OwnerInformationPage(driver);
     }
+    @Step("New owner button click")
     public void newOwner(){
         WebElement newOwner = driver.findElement(By.xpath("//tr[last()]/td[1]/a"));
         newOwner.click();

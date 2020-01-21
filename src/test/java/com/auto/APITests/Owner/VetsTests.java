@@ -12,9 +12,6 @@ import java.util.List;
 import static org.hamcrest.Matchers.*;
 
 public class VetsTests extends ApiTestPreconditions{
-    String lastName = "Bolit";
-    String vetsUrl = "/vets";
-    String vetsIdUrl = "/vets/{id}";
 
     Vets vets = new Vets();
 
@@ -52,7 +49,7 @@ public class VetsTests extends ApiTestPreconditions{
                 .get(vetsIdUrl, vets.getId())
                 .then()
                 .statusCode(200)
-                .body("lastName", equalTo(lastName))
+                .body("lastName", equalTo(vetLastName))
                 .body("id", equalTo(vets.getId()))
                 .log().all();
     }
@@ -68,7 +65,7 @@ public class VetsTests extends ApiTestPreconditions{
         Vets vets = new Vets();
         List<Specialty> spec = new ArrayList<>();
         vets.setFirstName("i");
-        vets.setLastName(lastName);
+        vets.setLastName(vetLastName);
         vets.setSpecialties(spec);
         return RestAssured.given()
                 .contentType(ContentType.JSON)
@@ -95,7 +92,7 @@ public class VetsTests extends ApiTestPreconditions{
         Vets vets = new Vets();
         List<Specialty> spec = new ArrayList<>();
         vets.setFirstName("qwertyuio");
-        vets.setLastName(lastName);
+        vets.setLastName(vetLastName);
         vets.setSpecialties(spec);
         RestAssured.given()
                 .contentType(ContentType.JSON)
@@ -131,7 +128,7 @@ public class VetsTests extends ApiTestPreconditions{
         Vets vets = new Vets();
         List<Specialty> spec = new ArrayList<>();
         vets.setFirstName("qwertyuio");
-        vets.setLastName(lastName);
+        vets.setLastName(vetLastName);
         vets.setSpecialties(spec);
         RestAssured.given()
                 .contentType(ContentType.JSON)

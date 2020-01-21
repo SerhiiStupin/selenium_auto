@@ -1,5 +1,6 @@
 package com.auto.APITests.Owner;
 
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
@@ -12,6 +13,18 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class ApiTestPreconditions {
+    String lastName = "Nator";
+    String owners = "/owners";
+    String petTypesUrl = "/pettypes";
+    String petTypedIdUrl = "/pettypes/{id}";
+    String specUrl = "/specialties";
+    String specIdUrl = "/specialties/{id}";
+    String vetLastName = "Bolit";
+    String vetsUrl = "/vets";
+    String vetsIdUrl = "/vets/{id}";
+    String petsUrl = "/pets";
+    String petsIdUrl = "/pets/{id}";
+
     Owner owner;
     Pet pet;
     Type type;
@@ -25,6 +38,7 @@ public class ApiTestPreconditions {
         RestAssured.basePath = "/petclinic/api";
         RestAssured.defaultParser = Parser.JSON;
     }
+    @Step("Entering new Spec data and save")
         public void specCreationPrec() {
         specialty = new Specialty();
         specialty.setName("lor");
@@ -37,6 +51,7 @@ public class ApiTestPreconditions {
                 .extract().body()
                 .as(Specialty.class);
     }
+    @Step("Entering new Vets data and save")
     public void vetCreationPrec() {
         vets = new Vets();
         List<Specialty> spec = new ArrayList<>();
@@ -55,6 +70,7 @@ public class ApiTestPreconditions {
                 .extract().body()
                 .as(Vets.class);
     }
+    @Step("Entering new owner data and save")
     public void addOwner() {
         owner = new Owner();
         owner.setFirstName("Pavlo");
@@ -71,6 +87,20 @@ public class ApiTestPreconditions {
                 .extract().body()
                 .as(Owner.class);
     }
+    @Step("Entering new PetType data and save")
+    public void petTypeadding(){
+        type = new Type();
+        type.setName("Duck");
+        type = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(type)
+                .post("/pettypes")
+                .then()
+                .statusCode(201)
+                .extract().body()
+                .as(Type.class);
+    }
+    @Step("Entering new Owner with Pet and PetType data + save")
     public void addOwnerAndPets(){
         owner = new Owner();
         owner.setFirstName("Pavlo");
@@ -86,17 +116,6 @@ public class ApiTestPreconditions {
                 .statusCode(201)
                 .extract().body()
                 .as(Owner.class);
-
-        type = new Type();
-        type.setName("Duck");
-        type = RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body(type)
-                .post("/pettypes")
-                .then()
-                .statusCode(201)
-                .extract().body()
-                .as(Type.class);
 
         pet = new Pet();
         pet.setName("Villy");

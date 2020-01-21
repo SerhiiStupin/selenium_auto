@@ -1,5 +1,6 @@
 package com.auto.APITests.Owner;
 
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.testng.annotations.AfterClass;
@@ -8,14 +9,15 @@ import org.testng.annotations.Test;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 
+@Epic("PetClinic")
+@Feature("Pets API")
 public class PetsTests extends ApiTestPreconditions{
-    String petsUrl = "/pets";
-    String petsIdUrl = "/pets/{id}";
     Owner owner;
     Type type;
     Pet pet;
 
     @AfterClass
+    @Step("Deleting data after test")
     public void cleanData() {
         if (pet != null){
             RestAssured.given()
@@ -41,7 +43,11 @@ public class PetsTests extends ApiTestPreconditions{
                     .statusCode(204);
         }
     }
-    @Test
+    @Test(description = "Creating owner with pet and type")
+    @Severity(SeverityLevel.BLOCKER)
+    @Story("Creating owner with pet and type")
+    @TmsLink("pets.com")
+    @Issue("Bug-20")
     public void addOwnerAndPets(){
         owner = new Owner();
         owner.setFirstName("Pavlo");
@@ -92,7 +98,11 @@ public class PetsTests extends ApiTestPreconditions{
                 .statusCode(204)
                 .log().all();
     }
-    @Test
+    @Test(description = "Get pet by id and lastname")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("Get pets")
+    @TmsLink("pets.com")
+    @Issue("Bug-21")
     public void petSearch(){
         RestAssured.given()
                 .get(petsUrl)
@@ -102,7 +112,11 @@ public class PetsTests extends ApiTestPreconditions{
                 .body("name", hasItems("Jewel", "Max"))
                 .log().all();
     }
-    @Test
+    @Test(description = "Get incorrect prt")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Story("Get incorrect pet")
+    @TmsLink("pets.com")
+    @Issue("Bug-22")
     public void petSearch404(){
         RestAssured.given()
                 .get("/pets1")
@@ -110,26 +124,11 @@ public class PetsTests extends ApiTestPreconditions{
                 .statusCode(404)
                 .log().all();
     }
-    @Test
-    public void PetTypeCheck(){
-        RestAssured.given()
-                .get(petsUrl + "/pettypes")
-                .then()
-                .statusCode(200)
-                .body("id", hasItems(1, 5, 6))
-                .body("name", hasItems("hamster", "snake", "lizard"))
-                .log().all();
-    }
-    @Test
-    public void PetTypeCheckError(){
-        RestAssured.given()
-                .then()
-                .statusCode(400)
-                .body("id", hasItems(1, 5, 6))
-                .body("name", hasItems("hamster", "snake", "lizard"))
-                .log().all();
-    }
-    @Test
+    @Test(description = "Getting of the new created pet")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("Getting of the new created pet")
+    @TmsLink("pets.com")
+    @Issue("Bug-23")
     public void petSearchById(){
         int petId = 1;
         RestAssured.given()
@@ -140,7 +139,11 @@ public class PetsTests extends ApiTestPreconditions{
                 .body("name", equalTo("Leo"))
                 .log().all();
     }
-    @Test
+    @Test(description = "Getting of the new with incorrect Id")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Story("Getting of the new with incorrect Id")
+    @TmsLink("pets.com")
+    @Issue("Bug-25")
     public void petSearchByIdError(){
         int petId = 1011;
         RestAssured.given()
@@ -150,3 +153,21 @@ public class PetsTests extends ApiTestPreconditions{
                 .log().all();
     }
 }
+//    public void PetTypeCheck(){
+//        RestAssured.given()
+//                .get(petsUrl + "/pettypes")
+//                .then()
+//                .statusCode(200)
+//                .body("id", hasItems(1, 5, 6))
+//                .body("name", hasItems("hamster", "snake", "lizard"))
+//                .log().all();
+//    }
+//    @Test
+//    public void PetTypeCheckError(){
+//        RestAssured.given()
+//                .then()
+//                .statusCode(400)
+//                .body("id", hasItems(1, 5, 6))
+//                .body("name", hasItems("hamster", "snake", "lizard"))
+//                .log().all();
+//    }
