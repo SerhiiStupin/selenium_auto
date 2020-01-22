@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.*;
 @Epic("PetClinic")
 @Feature("Owner API")
 public class OwnerTests extends ApiTestPreconditions{
-    Owner owner;
+    private Owner owner;
 
     @BeforeMethod
     @Step("Creating of the owner before all tests")

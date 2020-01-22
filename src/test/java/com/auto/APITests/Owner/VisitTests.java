@@ -5,7 +5,7 @@ import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 
 public class VisitTests extends ApiTestPreconditions{
-Visit visit;
+    private Visit visit;
     @Test
     public void addingVisit(){
 //        ApiTestPreconditions apiTest = new ApiTestPreconditions();
