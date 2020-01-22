@@ -25,11 +25,11 @@ public class ApiTestPreconditions {
     final String petsUrl = "/pets";
     final String petsIdUrl = "/pets/{id}";
 
-    Owner owner;
-    Pet pet;
-    Type type;
-    Specialty specialty;
-    Vets vets;
+    protected Owner owner;
+    protected Pet pet;
+    protected Type type;
+    protected Specialty specialty;
+    protected Vets vets;
 
 
     @BeforeClass
