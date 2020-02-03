@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 public class VisitTests extends ApiTestPreconditions{
 //Visit visit;
+    private Visit visit;
     @Test
     public void addingVisit(){
         owner = new Owner();
@@ -47,15 +48,6 @@ public class VisitTests extends ApiTestPreconditions{
                 .statusCode(201)
                 .extract().body()
                 .as(Pet.class);
-//
-//        pet.setBirthDate("2020/10/10");
-//        RestAssured.given()
-//                .contentType(ContentType.JSON)
-//                .body(pet)
-//                .put("/pets/"+ pet.getId())
-//                .then()
-//                .statusCode(204)
-//                .log().all();
 
         Visit visit = new Visit();
         visit.setDate("2020/01/01");
@@ -74,19 +66,3 @@ public class VisitTests extends ApiTestPreconditions{
         System.out.println((visit.toString()));
     }
 }
-//    ApiTestPreconditions apiTest = new ApiTestPreconditions();
-//        apiTest.addOwnerAndPets();
-//                Visit visit = new Visit();
-//                visit.setDate("2020/10/10");
-//                visit.setDescription("Test visit");
-//                visit.setPet(apiTest.pet);
-//                visit.setId(1);
-//                RestAssured.given()
-//                //.body(apiTest.pet)
-//                //.get("visits")
-//                .contentType(ContentType.JSON)
-//                .body(visit)
-//                .put("/visits")
-//                .then()
-//                .statusCode(201)
-//                .log().all();
