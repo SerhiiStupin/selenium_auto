@@ -12,9 +12,9 @@ import static org.hamcrest.Matchers.hasItems;
 @Epic("PetClinic")
 @Feature("Pets API")
 public class PetsTests extends ApiTestPreconditions{
-    Owner owner;
-    Type type;
-    Pet pet;
+    private Owner owner;
+    private Type type;
+    private Pet pet;
 
     @AfterClass
     @Step("Deleting data after test")

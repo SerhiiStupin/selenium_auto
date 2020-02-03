@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.*;
 @Epic("PetClinic")
 @Feature("Vets API")
 public class VetsTests extends ApiTestPreconditions{
-    Vets vets = new Vets();
+    private Vets vets = new Vets();
 
     @BeforeMethod
     @Step("Vets creating")
