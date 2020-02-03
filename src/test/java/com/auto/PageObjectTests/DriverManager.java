@@ -3,17 +3,19 @@ package com.auto.PageObjectTests;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
-import static com.auto.PageObjectTests.DriverType.CHROME;
-import static com.auto.PageObjectTests.DriverType.FIREFOX;
 
 public class DriverManager {
     public static WebDriver getManager(DriverType type) {
 //        DriverType chrome = DriverType.CHROME;
 //        DriverType firefox = DriverType.FIREFOX;
 
-        WebDriver driver;
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+
+        WebDriver driver = new ChromeDriver(options);
 
         switch (type) {
             case CHROME:
