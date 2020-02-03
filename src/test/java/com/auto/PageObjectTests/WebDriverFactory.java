@@ -13,16 +13,17 @@ public static WebDriver getDriver() {
     WebDriver driver;
     String browser = Configuration.getInstance().getBrowser();
     ChromeOptions options = new ChromeOptions();
-    options.addArguments("--headless");
-    options.addArguments("--no-sandbox");
-    options.addArguments("--disable-dev-shm-usage");
-    options.addArguments("--disable-gpu");
-    options.addArguments("--disable-extensions");
+
 
         switch (browser.toLowerCase()) {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver();
+                //options.addArguments("--headless");
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--disable-gpu");
+                options.addArguments("--disable-extensions");
                 break;
             case "chrome_headless":
                 WebDriverManager.chromedriver().setup();
