@@ -11,6 +11,10 @@ import java.util.concurrent.TimeUnit;
 public class WebDriverFactory {
 public static WebDriver getDriver() {
     String browser = Configuration.getInstance().getBrowser();
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--headless");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
     WebDriver driver;
 
         switch (browser.toLowerCase()) {
