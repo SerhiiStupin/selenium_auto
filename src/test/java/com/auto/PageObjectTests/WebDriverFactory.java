@@ -10,12 +10,14 @@ import java.util.concurrent.TimeUnit;
 
 public class WebDriverFactory {
 public static WebDriver getDriver() {
+    WebDriver driver;
     String browser = Configuration.getInstance().getBrowser();
     ChromeOptions options = new ChromeOptions();
     options.addArguments("--headless");
     options.addArguments("--no-sandbox");
     options.addArguments("--disable-dev-shm-usage");
-    WebDriver driver;
+    options.addArguments("--disable-gpu");
+    options.addArguments("--disable-extensions");
 
         switch (browser.toLowerCase()) {
             case "chrome":
