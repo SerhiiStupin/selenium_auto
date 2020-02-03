@@ -24,8 +24,8 @@ public static WebDriver getDriver() {
                 break;
             case "chrome_headless":
                 WebDriverManager.chromedriver().setup();
-                ChromeOptions options = new ChromeOptions();
-                options.setHeadless(true);
+//                ChromeOptions options = new ChromeOptions();
+//                options.setHeadless(true);
                 driver = new ChromeDriver(options);
                 break;
             case "firefox":
