@@ -1,8 +1,7 @@
 package com.auto;
 
-import com.auto.PageObjectTests.DriverManager;
-import com.auto.PageObjectTests.DriverType;
 import com.auto.PageObjectTests.VeterinariansPage;
+import com.auto.PageObjectTests.WebDriverFactory;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -26,8 +25,8 @@ public class TestPreconditions {
 
     @BeforeMethod
     public void setUp() {
-        //driver = WebDriverFactory.getDriver();
-        driver = DriverManager.getManager(DriverType.CHROME);
+        driver = WebDriverFactory.getDriver();
+        //driver = DriverManager.getManager(DriverType.CHROME);
     }
     @AfterMethod
     public void  tearDown(){

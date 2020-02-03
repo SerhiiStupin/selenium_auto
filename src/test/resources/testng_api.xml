@@ -2,7 +2,7 @@
 
 <suite name="API test suite" verbose="1" >
 
-    <test name="test" >
+    <test name="Add new Owner test" >
         <classes>
             <class name="com.auto.APITests.Owner.OwnerTests" />
         </classes>

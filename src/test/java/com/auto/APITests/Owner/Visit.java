@@ -60,4 +60,20 @@ public class Visit {
         this.pet = pet;
     }
 
+//    public Visit(String date, String description, Integer id, Pet pet) {
+//        this.date = date;
+//        this.description = description;
+//        this.id = id;
+//        this.pet = pet;
+//    }
+
+    @Override
+    public String toString() {
+        return "Visit{" +
+                "date='" + date + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", pet=" + pet +
+                '}';
+    }
 }

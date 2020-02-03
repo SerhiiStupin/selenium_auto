@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="All test suites" verbose="1" >
+
+    <suite-files>
+        <suite-file path="testng.xml"/>
+        <suite-file path="testng_api.xml"/>
+    </suite-files>
+
+</suite>

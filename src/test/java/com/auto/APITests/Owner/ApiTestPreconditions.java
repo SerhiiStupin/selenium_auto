@@ -40,6 +40,12 @@ public class ApiTestPreconditions {
         RestAssured.basePath = "/petclinic/api";
         RestAssured.defaultParser = Parser.JSON;
     }
+//    @AfterClass
+//    @Step("Deleting of the created owner by Id")
+//    public void deleteOwner() {
+//        ownerDeleteTest(owner.getId());
+//    }
+
     @Step("Entering new Spec data and save")
         public void specCreationPrec() {
         specialty = new Specialty();
@@ -141,5 +147,12 @@ public class ApiTestPreconditions {
                 .then()
                 .statusCode(204)
                 .log().all();
+    }
+    public void ownerDeleteTest(String ownerId){
+        RestAssured.given()
+                .log().all()
+                .delete(owners + "/{id}", ownerId)
+                .then()
+                .statusCode(204);
     }
 }
